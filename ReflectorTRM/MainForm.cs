@@ -159,7 +159,16 @@ namespace ReflectorTRM
             info.AppendLine(t.Assembly.FullName);
             info.AppendLine(t.Assembly.Location);
 
-            info.AppendLine("\nBase type:");
+            info.AppendLine("\nAttributes:");
+            info.AppendLine(t.Attributes.ToString());
+
+            info.AppendLine("\nCustom Attributes:");
+            foreach(var ca in t.CustomAttributes)
+            {
+                info.AppendLine(ca.ToString());
+            }
+
+            info.AppendLine("\nBase Type:");
             info.AppendLine(t.BaseType != null ? t.BaseType.FullName : "No base type");
 
             info.AppendLine("\nInterfaces:");
