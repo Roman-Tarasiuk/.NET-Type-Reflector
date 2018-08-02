@@ -138,6 +138,8 @@ namespace ReflectorTRM
                 return;
             }
 
+            txtTypeName.Text = txtTypeName.Text.Trim();
+
             Type t = Type.GetType(txtTypeName.Text);
 
             if (t == null)
