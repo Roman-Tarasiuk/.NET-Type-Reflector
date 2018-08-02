@@ -228,14 +228,26 @@ namespace ReflectorTRM
                 tmp.Append(" ");
 
                 info.Append(tmp.ToString());
-                info.AppendLine(mi.ToString());
+                //info.AppendLine(mi.ToString());
+                info.Append(mi.Name + "(");
+                var hasParams = false;
+                foreach (var param in mi.GetParameters())
+                {
+                    info.Append(param.ToString() + ", ");
+                    hasParams = true;
+                }
+                if (hasParams)
+                {
+                    info.Remove(info.Length - 2, 2); // Last ", "
+                }
+                info.AppendLine(")");
             }
 
             info.AppendLine("\nProperties:");
             PropertyInfo[] properties = t.GetProperties(flags);
             foreach (PropertyInfo pi in properties)
             {
-                info.AppendLine("* " + pi.DeclaringType + " " + pi.Name
+                info.AppendLine("* " + pi.PropertyType + " " + pi.Name
                     + " { " + (pi.CanRead ? "get; " : "") + (pi.CanWrite ? "set " : "") + "}");
             }
 
