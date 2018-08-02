@@ -229,7 +229,7 @@ namespace ReflectorTRM
 
                 info.Append(tmp.ToString());
                 //info.AppendLine(mi.ToString());
-                info.Append(mi.Name + "(");
+                info.Append(mi.ReturnType.ToString() + " " + mi.Name + "(");
                 var hasParams = false;
                 foreach (var param in mi.GetParameters())
                 {
@@ -247,7 +247,9 @@ namespace ReflectorTRM
             PropertyInfo[] properties = t.GetProperties(flags);
             foreach (PropertyInfo pi in properties)
             {
-                info.AppendLine("* " + pi.PropertyType + " " + pi.Name
+                info.AppendLine("• "
+                    + (pi.GetMethod.IsPrivate && pi.SetMethod.IsPrivate ? "private" : "public")
+                    + " " + pi.PropertyType + " " + pi.Name
                     + " { " + (pi.CanRead ? "get; " : "") + (pi.CanWrite ? "set " : "") + "}");
             }
 
