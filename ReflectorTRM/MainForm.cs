@@ -47,7 +47,6 @@ namespace ReflectorTRM
 
         private void btnShowInfo_Click(object sender, EventArgs e)
         {
-            richtxtInfo.Clear();
             DisplayInfo();
         }
 
@@ -80,7 +79,15 @@ namespace ReflectorTRM
         private void lstTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtTypeName.Text = lstbxTypes.SelectedItem.ToString();
-            DisplayInfo();
+        }
+
+        private void lstbxTypes_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstbxTypes.SelectedIndex >= 0)
+            {
+                txtTypeName.Text = lstbxTypes.SelectedItem.ToString();
+                DisplayInfo();
+            }
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -137,6 +144,8 @@ namespace ReflectorTRM
             {
                 return;
             }
+
+            richtxtInfo.Clear();
 
             txtTypeName.Text = txtTypeName.Text.Trim();
 
