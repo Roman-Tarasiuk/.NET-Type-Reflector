@@ -77,7 +77,7 @@
             this.txtTypeName.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtTypeName.Location = new System.Drawing.Point(7, 18);
             this.txtTypeName.Name = "txtTypeName";
-            this.txtTypeName.Size = new System.Drawing.Size(210, 20);
+            this.txtTypeName.Size = new System.Drawing.Size(234, 20);
             this.txtTypeName.TabIndex = 1;
             this.txtTypeName.Text = "System.Object";
             // 
@@ -160,9 +160,9 @@
             // 
             this.btnShowInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShowInfo.Location = new System.Drawing.Point(223, 16);
+            this.btnShowInfo.Location = new System.Drawing.Point(247, 16);
             this.btnShowInfo.Name = "btnShowInfo";
-            this.btnShowInfo.Size = new System.Drawing.Size(60, 24);
+            this.btnShowInfo.Size = new System.Drawing.Size(42, 24);
             this.btnShowInfo.TabIndex = 2;
             this.btnShowInfo.Text = "Info";
             this.btnShowInfo.UseVisualStyleBackColor = true;
