@@ -36,7 +36,6 @@
             this.btnSelectAssembly = new System.Windows.Forms.Button();
             this.lstbxTypes = new System.Windows.Forms.ListBox();
             this.richtxtInfo = new System.Windows.Forms.RichTextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnShowInfo = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -77,7 +76,7 @@
             this.txtTypeName.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtTypeName.Location = new System.Drawing.Point(7, 18);
             this.txtTypeName.Name = "txtTypeName";
-            this.txtTypeName.Size = new System.Drawing.Size(234, 20);
+            this.txtTypeName.Size = new System.Drawing.Size(240, 20);
             this.txtTypeName.TabIndex = 1;
             this.txtTypeName.Text = "System.Object";
             // 
@@ -129,7 +128,7 @@
             this.lstbxTypes.IntegralHeight = false;
             this.lstbxTypes.Location = new System.Drawing.Point(9, 28);
             this.lstbxTypes.Name = "lstbxTypes";
-            this.lstbxTypes.Size = new System.Drawing.Size(264, 274);
+            this.lstbxTypes.Size = new System.Drawing.Size(264, 282);
             this.lstbxTypes.TabIndex = 6;
             this.lstbxTypes.SelectedIndexChanged += new System.EventHandler(this.lstTypes_SelectedIndexChanged);
             this.lstbxTypes.DoubleClick += new System.EventHandler(this.lstbxTypes_DoubleClick);
@@ -147,24 +146,16 @@
             this.richtxtInfo.Text = "";
             this.richtxtInfo.WordWrap = false;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 2);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Info:";
-            // 
             // btnShowInfo
             // 
             this.btnShowInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShowInfo.Location = new System.Drawing.Point(247, 16);
+            this.btnShowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnShowInfo.Location = new System.Drawing.Point(248, 17);
             this.btnShowInfo.Name = "btnShowInfo";
-            this.btnShowInfo.Size = new System.Drawing.Size(42, 24);
+            this.btnShowInfo.Size = new System.Drawing.Size(42, 22);
             this.btnShowInfo.TabIndex = 2;
             this.btnShowInfo.Text = "Info";
+            this.btnShowInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnShowInfo.UseVisualStyleBackColor = true;
             this.btnShowInfo.Click += new System.EventHandler(this.btnShowInfo_Click);
             // 
@@ -178,9 +169,9 @@
             this.groupBox1.Controls.Add(this.chkDeclaredOnly);
             this.groupBox1.Controls.Add(this.comboVisibility);
             this.groupBox1.Controls.Add(this.comboInstanceStatic);
-            this.groupBox1.Location = new System.Drawing.Point(7, 46);
+            this.groupBox1.Location = new System.Drawing.Point(7, 43);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(281, 91);
+            this.groupBox1.Size = new System.Drawing.Size(282, 91);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Members attributes:";
@@ -251,7 +242,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 323);
+            this.label4.Location = new System.Drawing.Point(3, 331);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 14;
@@ -262,7 +253,7 @@
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnFilter.Image = ((System.Drawing.Image)(resources.GetObject("btnFilter.Image")));
-            this.btnFilter.Location = new System.Drawing.Point(166, 337);
+            this.btnFilter.Location = new System.Drawing.Point(166, 345);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(49, 24);
             this.btnFilter.TabIndex = 16;
@@ -273,7 +264,7 @@
             // 
             this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilter.Location = new System.Drawing.Point(6, 339);
+            this.txtFilter.Location = new System.Drawing.Point(6, 347);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(153, 20);
             this.txtFilter.TabIndex = 15;
@@ -283,7 +274,7 @@
             this.btnClearFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnClearFilter.Image = ((System.Drawing.Image)(resources.GetObject("btnClearFilter.Image")));
-            this.btnClearFilter.Location = new System.Drawing.Point(221, 337);
+            this.btnClearFilter.Location = new System.Drawing.Point(221, 345);
             this.btnClearFilter.Name = "btnClearFilter";
             this.btnClearFilter.Size = new System.Drawing.Size(49, 24);
             this.btnClearFilter.TabIndex = 17;
@@ -306,7 +297,7 @@
             // 
             this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCount.AutoSize = true;
-            this.lblCount.Location = new System.Drawing.Point(32, 305);
+            this.lblCount.Location = new System.Drawing.Point(32, 313);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(36, 13);
             this.lblCount.TabIndex = 19;
@@ -358,6 +349,7 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 27);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -373,7 +365,6 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.richtxtInfo);
             this.splitContainer1.Panel2.Controls.Add(this.chkWrapLines);
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Size = new System.Drawing.Size(1025, 537);
             this.splitContainer1.SplitterDistance = 291;
             this.splitContainer1.TabIndex = 21;
@@ -385,10 +376,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(3, 143);
+            this.tabControl1.Location = new System.Drawing.Point(3, 135);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(289, 391);
+            this.tabControl1.Size = new System.Drawing.Size(289, 399);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -405,7 +396,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(281, 365);
+            this.tabPage1.Size = new System.Drawing.Size(281, 373);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Assembly";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -458,7 +449,6 @@
         private System.Windows.Forms.Button btnSelectAssembly;
         private System.Windows.Forms.ListBox lstbxTypes;
         private System.Windows.Forms.RichTextBox richtxtInfo;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnShowInfo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboInstanceStatic;
