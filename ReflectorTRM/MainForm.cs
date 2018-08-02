@@ -217,9 +217,14 @@ namespace ReflectorTRM
                     {
                         return 1;
                     }
-                    else
+                    else if (m2.DeclaringType == t)
                     {
                         return -1;
+                    }
+                    // Something weird...
+                    else
+                    {
+                        return 0;
                     }
                 }
                 // Then sorting methods by name.
