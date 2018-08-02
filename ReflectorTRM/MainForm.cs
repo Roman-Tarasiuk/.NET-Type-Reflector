@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 using System.Reflection;
 using System.Threading;
+using Extensions;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace ReflectorTRM
 {
@@ -31,6 +34,10 @@ namespace ReflectorTRM
 
             comboInstanceStatic.SelectedIndex = 0;
             comboVisibility.SelectedIndex = 0;
+
+            richtxtInfo.BackColor = Color.FromArgb(30, 30, 30);
+            //richtxtInfo.Font = new Font(richtxtInfo.Font.FontFamily, 12);
+            richtxtInfo.Font = new Font(new FontFamily("Consolas"), 12);
         }
 
         #endregion
@@ -40,6 +47,7 @@ namespace ReflectorTRM
 
         private void btnShowInfo_Click(object sender, EventArgs e)
         {
+            richtxtInfo.Clear();
             DisplayInfo();
         }
 
@@ -108,6 +116,16 @@ namespace ReflectorTRM
             }
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
 
@@ -134,7 +152,7 @@ namespace ReflectorTRM
 
             if (t != null)
             {
-                richtxtInfo.Text = TypeInfo(t, CombineBindingFlags());
+                TypeInfo(richtxtInfo, t, CombineBindingFlags());
             }
             else
             {
@@ -143,118 +161,83 @@ namespace ReflectorTRM
             }
         }
 
-        private string TypeInfo(Type t, BindingFlags flags)
+        private void TypeInfo(RichTextBox box, Type t, BindingFlags flags)
         {
-            StringBuilder info = new StringBuilder();
-
-            info.AppendLine("Type:");
-            info.AppendLine(t.FullName);
+            AddSection(box, "Type:\n");
+            AddTypeName(box, t.FullName + "\n");
 
             if (t.IsSealed)
             {
-                info.AppendLine("[sealed]");
+                AddInfo(box, "[sealed]\n");
             }
 
-            info.AppendLine("\nAssembly:");
-            info.AppendLine(t.Assembly.FullName);
-            info.AppendLine(t.Assembly.Location);
+            AddSection(box, "\nAssembly:\n");
+            AddInfo(box, t.Assembly.FullName + "\n");
+            AddInfo(box, t.Assembly.Location + "\n");
 
-            info.AppendLine("\nAttributes:");
-            info.AppendLine(t.Attributes.ToString());
+            AddSection(box, "\nAttributes:\n");
+            AddInfo(box, t.Attributes.ToString() + "\n");
 
-            info.AppendLine("\nCustom Attributes:");
+            AddSection(box, "\nCustom Attributes:\n");
             foreach(var ca in t.CustomAttributes)
             {
-                info.AppendLine(ca.ToString());
+                AddInfo(box, ca.ToString() + "\n");
             }
 
-            info.AppendLine("\nBase Type:");
-            info.AppendLine(t.BaseType != null ? t.BaseType.FullName : "No base type");
+            AddSection(box, "\nBase Type:\n");
+            AddTypeName(box, (t.BaseType != null ? t.BaseType.FullName : "No base type") + "\n");
 
-            info.AppendLine("\nInterfaces:");
+            AddSection(box, "\nInterfaces:\n");
             Type[] interfaces = t.GetInterfaces();
             foreach (Type i in interfaces)
             {
-                info.AppendLine(i.FullName);
+                AddTypeName(box, i.FullName + "\n");
             }
 
-            info.AppendLine("\n-------------------------------------------------");
+            AddSection(box, "\n-------------------------------------------------\n");
 
-            info.AppendLine("\nConstructors:");
+            AddSection(box, "\nConstructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
             foreach (ConstructorInfo ci in constructors)
             {
-                info.AppendLine(ci.ToString());
+                AddConstructorInfo(box, ci);
             }
 
 
-            info.AppendLine("\nMethods:");
+            AddSection(box, "\nMethods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
-            StringBuilder tmp = new StringBuilder();
-            foreach (MethodInfo mi in methods)
-            {
-                tmp.Clear();
 
-                if (mi.DeclaringType != t)
+            Array.Sort(methods, (m1, m2) => {
+                // Methods declared in parent go first.
+                if (m1.DeclaringType != m2.DeclaringType)
                 {
-                    tmp.Append("▲ ");
+                    if (m1.DeclaringType == t)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
                 }
-
-                //
-                if (mi.IsPublic)
-                {
-                    tmp.Append("public");
-                }
-                else if (mi.IsPrivate)
-                {
-                    tmp.Append("private");
-                }
+                // Then sorting methods by name.
                 else
                 {
-                    tmp.Append("protected");
+                    return m1.Name.CompareTo(m2.Name);
                 }
-
-                if (mi.IsStatic)
-                {
-                    tmp.Append(" static");
-                }
-
-                //
-                if (mi.IsVirtual)
-                {
-                    tmp.Append(" virtual");
-                }
-
-                tmp.Append(" ");
-
-                info.Append(tmp.ToString());
-                //info.AppendLine(mi.ToString());
-                info.Append(mi.ReturnType.ToString() + " " + mi.Name + "(");
-                var hasParams = false;
-                foreach (var param in mi.GetParameters())
-                {
-                    info.Append(param.ToString() + ", ");
-                    hasParams = true;
-                }
-                if (hasParams)
-                {
-                    info.Remove(info.Length - 2, 2); // Last ", "
-                }
-                info.AppendLine(")");
+            });
+            foreach (MethodInfo mi in methods)
+            {
+                AddMethodInfo(box, mi, t);
             }
 
-            info.AppendLine("\nProperties:");
+            AddSection(box, "\nProperties:\n");
             PropertyInfo[] properties = t.GetProperties(flags);
             foreach (PropertyInfo pi in properties)
             {
-                info.AppendLine("• "
-                    + (pi.GetMethod.IsPrivate && pi.SetMethod.IsPrivate ? "private" : "public")
-                    + " " + pi.PropertyType + " " + pi.Name
-                    + " { " + (pi.CanRead ? "get; " : "") + (pi.CanWrite ? "set " : "") + "}");
+                AddPropertyInfo(box, pi);
+                box.AppendText("\n");
             }
-
-
-            return info.ToString();
         }
 
         private BindingFlags CombineBindingFlags()
@@ -339,34 +322,134 @@ namespace ReflectorTRM
                 + m_AssemblyTypes.Count.ToString() + " types";
         }
 
-        //private void ShowTypes(string assemblyFilePath)
-        //{
-        //    try
-        //    {
-        //        lstTypes.Items.Clear();
+        private void AddSection(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(100, 100, 100));
+        }
 
-        //        Assembly a = Assembly.LoadFile(assemblyFilePath);
-        //        foreach(TypeInfo ti in a.DefinedTypes)
-        //        {
-        //            lstTypes.Items.Add(ti.FullName);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(String.Format("An error occured:\n{0}", e.ToString()));
-        //    }
-        //}
+        private void AddTypeName(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(78, 201, 162));
+        }
+
+        private void AddInfo(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(220, 220, 220));
+        }
+
+        private void AddMethodName(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(220, 220, 156));
+        }
+
+        private void AddPunctuation(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(212, 212, 212));
+        }
+
+        private void AddParameterName(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(212, 212, 212));
+        }
+
+        private void AddModifier(RichTextBox box, string s)
+        {
+            box.AppendText(s, Color.FromArgb(86, 156, 214));
+        }
+
+        private void AppParameterInfo(RichTextBox box, ParameterInfo[] parameters)
+        {
+            AddPunctuation(box, "(");
+
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                AddTypeName(box, parameters[i].ParameterType.ToString());
+                box.AppendText(" ");
+                AddParameterName(box, parameters[i].Name);
+                if (i < parameters.Length - 1)
+                {
+                    AddPunctuation(box, ", ");
+                }
+            }
+
+            AddPunctuation(box, ")");
+            box.AppendText("\n");
+        }
+
+        private void AddConstructorInfo(RichTextBox box, ConstructorInfo ci)
+        {
+            if (ci.IsPrivate)
+            {
+                AddModifier(box, "private");
+            }
+            else if (ci.IsPublic)
+            {
+                AddModifier(box, "public");
+            }
+            else if (ci.IsFamily)
+            {
+                AddModifier(box, "protected");
+            }
+
+            box.AppendText(" ");
+
+            AddMethodName(box, ci.Name);
+            AppParameterInfo(box, ci.GetParameters());
+        }
+
+        private void AddMethodInfo(RichTextBox box, MethodInfo mi, Type t)
+        {
+            if (mi.DeclaringType != t)
+            {
+                AddInfo(box, "▲ ");
+            }
+
+            //
+            if (mi.IsPublic)
+            {
+                AddModifier(box, "public");
+            }
+            else if (mi.IsPrivate)
+            {
+                AddModifier(box, "private");
+            }
+            else
+            {
+                AddModifier(box, "protected");
+            }
+
+            if (mi.IsStatic)
+            {
+                AddModifier(box, " static");
+            }
+
+            //
+            if (mi.IsVirtual)
+            {
+                AddModifier(box, " virtual");
+            }
+
+            box.AppendText(" ");
+
+            AddTypeName(box, mi.ReturnType.ToString());
+            AddMethodName(box, " " + mi.Name);
+            AppParameterInfo(box, mi.GetParameters());
+        }
+
+        private void AddPropertyInfo(RichTextBox box, PropertyInfo pi)
+        {
+            AddInfo(box, "• ");
+            AddModifier(box,
+                (pi.GetMethod != null) && pi.GetMethod.IsPrivate && (pi.SetMethod != null) && pi.SetMethod.IsPrivate
+                    ? "private" : "public");
+            AddTypeName(box, " " + pi.PropertyType);
+            AddMethodName(box, " " + pi.Name);
+            AddPunctuation(box, " { ");
+            AddInfo(box, pi.CanRead ? "get; " : "");
+            AddInfo(box, pi.CanWrite ? "set " : "");
+            AddPunctuation(box, "}");
+        }
 
         #endregion
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
