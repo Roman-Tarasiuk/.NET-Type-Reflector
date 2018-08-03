@@ -254,6 +254,17 @@ namespace ReflectorTRM
                 AddPropertyInfo(box, pi);
                 box.AppendText("\n");
             }
+
+            if (t.IsEnum)
+            {
+                AddSection(box, "\nEnum values:\n");
+                var values = Enum.GetValues(t);
+                foreach (var v in values)
+                {
+                    var name = Enum.GetName(t, v);
+                    AddInfo(box, name + ": " + ((int)v).ToString() + "\n");
+                }
+            }
         }
 
         private BindingFlags CombineBindingFlags()
