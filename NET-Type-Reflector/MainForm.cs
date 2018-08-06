@@ -200,59 +200,86 @@ namespace ReflectorTRM
 
             AddSection(box, "\nInterfaces:\n");
             Type[] interfaces = t.GetInterfaces();
-            foreach (Type i in interfaces)
+            if (interfaces.Length > 0)
             {
-                AddTypeName(box, i.FullName + "\n");
+                foreach (Type i in interfaces)
+                {
+                    AddTypeName(box, i.FullName + "\n");
+                }
+            }
+            else
+            {
+                AddInfo(box, "-\n");
             }
 
             AddSection(box, "\n-------------------------------------------------\n");
 
             AddSection(box, "\nConstructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
-            foreach (ConstructorInfo ci in constructors)
+            if (constructors.Length > 0)
             {
-                AddConstructorInfo(box, ci);
+                foreach (ConstructorInfo ci in constructors)
+                {
+                    AddConstructorInfo(box, ci);
+                }
+            }
+            else
+            {
+                AddInfo(box, "-\n");
             }
 
 
             AddSection(box, "\nMethods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
-
-            Array.Sort(methods, (m1, m2) => {
-                // Methods declared in parent go first.
-                if (m1.DeclaringType != m2.DeclaringType)
-                {
-                    if (m1.DeclaringType == t)
+            if (methods.Length > 0)
+            {
+                Array.Sort(methods, (m1, m2) => {
+                    // Methods declared in parent go first.
+                    if (m1.DeclaringType != m2.DeclaringType)
                     {
-                        return 1;
+                        if (m1.DeclaringType == t)
+                        {
+                            return 1;
+                        }
+                        else if (m2.DeclaringType == t)
+                        {
+                            return -1;
+                        }
+                        // Something weird...
+                        else
+                        {
+                            return 0;
+                        }
                     }
-                    else if (m2.DeclaringType == t)
-                    {
-                        return -1;
-                    }
-                    // Something weird...
+                    // Then sorting methods by name.
                     else
                     {
-                        return 0;
+                        return m1.Name.CompareTo(m2.Name);
                     }
-                }
-                // Then sorting methods by name.
-                else
+                });
+                foreach (MethodInfo mi in methods)
                 {
-                    return m1.Name.CompareTo(m2.Name);
+                    AddMethodInfo(box, mi, t);
                 }
-            });
-            foreach (MethodInfo mi in methods)
+            }
+            else
             {
-                AddMethodInfo(box, mi, t);
+                AddInfo(box, "-\n");
             }
 
             AddSection(box, "\nProperties:\n");
             PropertyInfo[] properties = t.GetProperties(flags);
-            foreach (PropertyInfo pi in properties)
+            if (properties.Length > 0)
             {
-                AddPropertyInfo(box, pi);
-                box.AppendText("\n");
+                foreach (PropertyInfo pi in properties)
+                {
+                    AddPropertyInfo(box, pi);
+                    box.AppendText("\n");
+                }
+            }
+            else
+            {
+                AddInfo(box, "-\n");
             }
 
             if (t.IsEnum)
