@@ -37,7 +37,7 @@ namespace NetTypeReflector
                 throw new ArgumentException();
             }
 
-            if (position < m_Info[0].Position)
+            if (m_Info.Count == 0 || position < m_Info[0].Position)
             {
                 return null;
             }

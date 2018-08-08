@@ -131,7 +131,7 @@ namespace NetTypeReflector
 
         }
 
-        private void richtxtInfo_MouseClick(Object sender, MouseEventArgs e)
+        private void richtxtInfo_SelectionChanged(Object sender, EventArgs e)
         {
             var mi = m_ViewHelper.Get(this.richtxtInfo, this.richtxtInfo.SelectionStart);
             if (m_Type != null && mi != null)

@@ -143,7 +143,7 @@
             this.richtxtInfo.TabIndex = 13;
             this.richtxtInfo.Text = "";
             this.richtxtInfo.WordWrap = false;
-            this.richtxtInfo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.richtxtInfo_MouseClick);
+            this.richtxtInfo.SelectionChanged += new System.EventHandler(this.richtxtInfo_SelectionChanged);
             //
             // btnShowInfo
             //
