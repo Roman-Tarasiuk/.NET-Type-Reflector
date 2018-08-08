@@ -34,10 +34,6 @@ namespace ReflectorTRM
 
             comboInstanceStatic.SelectedIndex = 0;
             comboVisibility.SelectedIndex = 0;
-
-            richtxtInfo.BackColor = Color.FromArgb(30, 30, 30);
-            //richtxtInfo.Font = new Font(richtxtInfo.Font.FontFamily, 12);
-            richtxtInfo.Font = new Font(new FontFamily("Consolas"), 12);
         }
 
         #endregion
