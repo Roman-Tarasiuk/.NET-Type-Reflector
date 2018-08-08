@@ -14,7 +14,7 @@ using Extensions;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ReflectorTRM
+namespace NetTypeReflector
 {
     public partial class MainForm : Form
     {
@@ -22,6 +22,8 @@ namespace ReflectorTRM
 
         private List<string> m_AssemblyTypes = new List<string>();
         private OpenFileDialog m_OpenFileDialog = null;
+        private ViewHelper m_ViewHelper = new ViewHelper();
+        private Type m_Type;
 
         #endregion
 
@@ -129,6 +131,24 @@ namespace ReflectorTRM
 
         }
 
+        private void richtxtInfo_MouseClick(Object sender, MouseEventArgs e)
+        {
+            var mi = m_ViewHelper.Get(this.richtxtInfo, this.richtxtInfo.SelectionStart);
+            if (m_Type != null && mi != null)
+            {
+                this.richtxtDetails.Clear();
+
+                var ci = mi as ConstructorInfo;
+                if (ci != null)
+                {
+                    ShowConstructorDetails(this.richtxtDetails, ci);
+                    return;
+                }
+
+                ShowMethodDetails(this.richtxtDetails, mi, m_Type);
+            }
+        }
+
         #endregion
 
 
@@ -145,21 +165,21 @@ namespace ReflectorTRM
 
             txtTypeName.Text = txtTypeName.Text.Trim();
 
-            Type t = Type.GetType(txtTypeName.Text);
+            m_Type = Type.GetType(txtTypeName.Text);
 
-            if (t == null)
+            if (m_Type == null)
             {
                 try
                 {
-                    t = Assembly.LoadFile(txtAssemblyPath.Text).GetType(txtTypeName.Text);
+                    m_Type = Assembly.LoadFile(txtAssemblyPath.Text).GetType(txtTypeName.Text);
                 }
                 catch
                 { }
             }
 
-            if (t != null)
+            if (m_Type != null)
             {
-                TypeInfo(richtxtInfo, t, CombineBindingFlags());
+                TypeInfo(richtxtInfo, m_Type, CombineBindingFlags());
             }
             else
             {
@@ -209,6 +229,8 @@ namespace ReflectorTRM
             }
 
             AddSection(box, "\n-------------------------------------------------\n");
+
+            m_ViewHelper.Clear();
 
             AddSection(box, "\nConstructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
@@ -407,18 +429,22 @@ namespace ReflectorTRM
             box.AppendText(s, Color.FromArgb(86, 156, 214));
         }
 
-        private void AppParameterInfo(RichTextBox box, ParameterInfo[] parameters)
+        private void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline = false)
         {
-            AddPunctuation(box, "(");
+            AddPunctuation(box, "(" + (multiline && parameters.Length > 0 ? "\n" : ""));
 
             for (var i = 0; i < parameters.Length; i++)
             {
-                AddTypeName(box, parameters[i].ParameterType.ToString());
+                AddTypeName(box, (multiline ? "    " : "") + parameters[i].ParameterType.ToString());
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
                 if (i < parameters.Length - 1)
                 {
-                    AddPunctuation(box, ", ");
+                    AddPunctuation(box, "," + (multiline ? "\n" : " "));
+                }
+                else
+                {
+                    AddInfo(box, (multiline ? "\n" : ""));
                 }
             }
 
@@ -427,6 +453,22 @@ namespace ReflectorTRM
         }
 
         private void AddConstructorInfo(RichTextBox box, ConstructorInfo ci)
+        {
+            var position = box.Text.Length;
+
+            AddConstructorInfoDescription(box, ci);
+            AddParameterInfo(box, ci.GetParameters());
+
+            m_ViewHelper.Add(ci, position, box.Text.Length - position);
+        }
+
+        private void ShowConstructorDetails(RichTextBox box, ConstructorInfo ci)
+        {
+            AddConstructorInfoDescription(box, ci);
+            AddParameterInfo(box, ci.GetParameters(), true);
+        }
+
+        private void AddConstructorInfoDescription(RichTextBox box, ConstructorInfo ci)
         {
             if (ci.IsPrivate)
             {
@@ -444,11 +486,28 @@ namespace ReflectorTRM
             box.AppendText(" ");
 
             AddMethodName(box, ci.Name);
-            AppParameterInfo(box, ci.GetParameters());
         }
 
         private void AddMethodInfo(RichTextBox box, MethodInfo mi, Type t)
         {
+            var position = box.Text.Length;
+
+            AddMethodInfoDescription(box, mi, t);
+            AddParameterInfo(box, mi.GetParameters());
+
+            m_ViewHelper.Add(mi, position, box.Text.Length - position);
+        }
+
+        private void ShowMethodDetails(RichTextBox box, MethodBase mi, Type t)
+        {
+            AddMethodInfoDescription(box, (MethodInfo)mi, t);
+            AddParameterInfo(box, mi.GetParameters(), true);
+        }
+
+        private void AddMethodInfoDescription(RichTextBox box, MethodInfo mi, Type t)
+        {
+            var position = box.Text.Length;
+
             if (mi.DeclaringType != t)
             {
                 AddInfo(box, "▲ ");
@@ -483,7 +542,6 @@ namespace ReflectorTRM
 
             AddTypeName(box, mi.ReturnType.ToString());
             AddMethodName(box, " " + mi.Name);
-            AppParameterInfo(box, mi.GetParameters());
         }
 
         private void AddPropertyInfo(RichTextBox box, PropertyInfo pi)
