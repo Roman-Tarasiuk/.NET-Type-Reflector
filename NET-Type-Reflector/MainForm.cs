@@ -161,7 +161,9 @@ namespace NetTypeReflector
                 return;
             }
 
-            richtxtInfo.Clear();
+            this.m_ViewHelper.Clear();
+            this.richtxtInfo.Clear();
+            this.richtxtDetails.Clear();
 
             txtTypeName.Text = txtTypeName.Text.Trim();
 
@@ -229,8 +231,6 @@ namespace NetTypeReflector
             }
 
             AddSection(box, "\n-------------------------------------------------\n");
-
-            m_ViewHelper.Clear();
 
             AddSection(box, "\nConstructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
