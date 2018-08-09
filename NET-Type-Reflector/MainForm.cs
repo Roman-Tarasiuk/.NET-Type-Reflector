@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 using System.Reflection;
 using System.Threading;
-using Extensions;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -144,11 +143,11 @@ namespace NetTypeReflector
                 var ci = mi as ConstructorInfo;
                 if (ci != null)
                 {
-                    ShowConstructorDetails(this.richtxtDetails, ci);
+                    OutputHelper.ShowConstructorDetails(this.richtxtDetails, ci);
                     return;
                 }
 
-                ShowMethodDetails(this.richtxtDetails, mi, m_Type);
+                OutputHelper.ShowMethodDetails(this.richtxtDetails, mi, m_Type);
             }
         }
 
@@ -195,62 +194,64 @@ namespace NetTypeReflector
 
         private void TypeInfo(RichTextBox box, Type t, BindingFlags flags)
         {
-            AddSection(box, "Type:\n");
-            AddTypeName(box, t.FullName + "\n");
+            OutputHelper.AddSection(box, "Type:\n");
+            OutputHelper.AddTypeName(box, t.FullName + "\n");
 
             if (t.IsSealed)
             {
-                AddInfo(box, "[sealed]\n");
+                OutputHelper.AddInfo(box, "[sealed]\n");
             }
 
-            AddSection(box, "\nAssembly:\n");
-            AddInfo(box, t.Assembly.FullName + "\n");
-            AddInfo(box, t.Assembly.Location + "\n");
+            OutputHelper.AddSection(box, "\nAssembly:\n");
+            OutputHelper.AddInfo(box, t.Assembly.FullName + "\n");
+            OutputHelper.AddInfo(box, t.Assembly.Location + "\n");
 
-            AddSection(box, "\nAttributes:\n");
-            AddInfo(box, t.Attributes.ToString() + "\n");
+            OutputHelper.AddSection(box, "\nAttributes:\n");
+            OutputHelper.AddInfo(box, t.Attributes.ToString() + "\n");
 
-            AddSection(box, "\nCustom Attributes:\n");
+            OutputHelper.AddSection(box, "\nCustom Attributes:\n");
             foreach(var ca in t.CustomAttributes)
             {
-                AddInfo(box, ca.ToString() + "\n");
+                OutputHelper.AddInfo(box, ca.ToString() + "\n");
             }
 
-            AddSection(box, "\nBase Type:\n");
-            AddTypeName(box, (t.BaseType != null ? t.BaseType.FullName : "No base type") + "\n");
+            OutputHelper.AddSection(box, "\nBase Type:\n");
+            OutputHelper.AddTypeName(box, (t.BaseType != null ? t.BaseType.FullName : "No base type") + "\n");
 
-            AddSection(box, "\nInterfaces:\n");
+            OutputHelper.AddSection(box, "\nInterfaces:\n");
             Type[] interfaces = t.GetInterfaces();
             if (interfaces.Length > 0)
             {
                 foreach (Type i in interfaces)
                 {
-                    AddTypeName(box, i.FullName + "\n");
+                    OutputHelper.AddTypeName(box, i.FullName + "\n");
                 }
             }
             else
             {
-                AddInfo(box, "-\n");
+                OutputHelper.AddInfo(box, "-\n");
             }
 
-            AddSection(box, "\n-------------------------------------------------\n");
+            OutputHelper.AddSection(box, "\n-------------------------------------------------\n");
 
-            AddSection(box, "\nConstructors:\n");
+            OutputHelper.AddSection(box, "\nConstructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
             if (constructors.Length > 0)
             {
                 foreach (ConstructorInfo ci in constructors)
                 {
-                    AddConstructorInfo(box, ci);
+                    var position = box.Text.Length;
+                    OutputHelper.AddConstructorInfo(box, ci);
+                    m_ViewHelper.Add(ci, position, box.Text.Length - position);
                 }
             }
             else
             {
-                AddInfo(box, "-\n");
+                OutputHelper.AddInfo(box, "-\n");
             }
 
 
-            AddSection(box, "\nMethods:\n");
+            OutputHelper.AddSection(box, "\nMethods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
             if (methods.Length > 0)
             {
@@ -280,37 +281,39 @@ namespace NetTypeReflector
                 });
                 foreach (MethodInfo mi in methods)
                 {
-                    AddMethodInfo(box, mi, t);
+                    var position = box.Text.Length;
+                    OutputHelper.AddMethodInfo(box, mi, t);
+                    m_ViewHelper.Add(mi, position, box.Text.Length - position);
                 }
             }
             else
             {
-                AddInfo(box, "-\n");
+                OutputHelper.AddInfo(box, "-\n");
             }
 
-            AddSection(box, "\nProperties:\n");
+            OutputHelper.AddSection(box, "\nProperties:\n");
             PropertyInfo[] properties = t.GetProperties(flags);
             if (properties.Length > 0)
             {
                 foreach (PropertyInfo pi in properties)
                 {
-                    AddPropertyInfo(box, pi);
+                    OutputHelper.AddPropertyInfo(box, pi);
                     box.AppendText("\n");
                 }
             }
             else
             {
-                AddInfo(box, "-\n");
+                OutputHelper.AddInfo(box, "-\n");
             }
 
             if (t.IsEnum)
             {
-                AddSection(box, "\nEnum values:\n");
+                OutputHelper.AddSection(box, "\nEnum values:\n");
                 var values = Enum.GetValues(t);
                 foreach (var v in values)
                 {
                     var name = Enum.GetName(t, v);
-                    AddInfo(box, name + ": " + ((int)v).ToString() + "\n");
+                    OutputHelper.AddInfo(box, name + ": " + ((int)v).ToString() + "\n");
                 }
             }
         }
@@ -395,170 +398,6 @@ namespace NetTypeReflector
 
             lblCount.Text = (txtFilter.Text != "" ? lstbxTypes.Items.Count.ToString() + " of " : "")
                 + m_AssemblyTypes.Count.ToString() + " types";
-        }
-
-        private void AddSection(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(100, 100, 100));
-        }
-
-        private void AddTypeName(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(78, 201, 162));
-        }
-
-        private void AddInfo(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(220, 220, 220));
-        }
-
-        private void AddMethodName(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(220, 220, 156));
-        }
-
-        private void AddPunctuation(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(212, 212, 212));
-        }
-
-        private void AddParameterName(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(212, 212, 212));
-        }
-
-        private void AddModifier(RichTextBox box, string s)
-        {
-            box.AppendText(s, Color.FromArgb(86, 156, 214));
-        }
-
-        private void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline = false)
-        {
-            AddPunctuation(box, "(" + (multiline && parameters.Length > 0 ? "\n" : ""));
-
-            for (var i = 0; i < parameters.Length; i++)
-            {
-                AddTypeName(box, (multiline ? "    " : "") + parameters[i].ParameterType.ToString());
-                box.AppendText(" ");
-                AddParameterName(box, parameters[i].Name);
-                if (i < parameters.Length - 1)
-                {
-                    AddPunctuation(box, "," + (multiline ? "\n" : " "));
-                }
-                else
-                {
-                    AddInfo(box, (multiline ? "\n" : ""));
-                }
-            }
-
-            AddPunctuation(box, ")");
-            box.AppendText("\n");
-        }
-
-        private void AddConstructorInfo(RichTextBox box, ConstructorInfo ci)
-        {
-            var position = box.Text.Length;
-
-            AddConstructorInfoDescription(box, ci);
-            AddParameterInfo(box, ci.GetParameters());
-
-            m_ViewHelper.Add(ci, position, box.Text.Length - position);
-        }
-
-        private void ShowConstructorDetails(RichTextBox box, ConstructorInfo ci)
-        {
-            AddConstructorInfoDescription(box, ci);
-            AddParameterInfo(box, ci.GetParameters(), true);
-        }
-
-        private void AddConstructorInfoDescription(RichTextBox box, ConstructorInfo ci)
-        {
-            if (ci.IsPrivate)
-            {
-                AddModifier(box, "private");
-            }
-            else if (ci.IsPublic)
-            {
-                AddModifier(box, "public");
-            }
-            else if (ci.IsFamily)
-            {
-                AddModifier(box, "protected");
-            }
-
-            box.AppendText(" ");
-
-            AddMethodName(box, ci.Name);
-        }
-
-        private void AddMethodInfo(RichTextBox box, MethodInfo mi, Type t)
-        {
-            var position = box.Text.Length;
-
-            AddMethodInfoDescription(box, mi, t);
-            AddParameterInfo(box, mi.GetParameters());
-
-            m_ViewHelper.Add(mi, position, box.Text.Length - position);
-        }
-
-        private void ShowMethodDetails(RichTextBox box, MethodBase mi, Type t)
-        {
-            AddMethodInfoDescription(box, (MethodInfo)mi, t);
-            AddParameterInfo(box, mi.GetParameters(), true);
-        }
-
-        private void AddMethodInfoDescription(RichTextBox box, MethodInfo mi, Type t)
-        {
-            var position = box.Text.Length;
-
-            if (mi.DeclaringType != t)
-            {
-                AddInfo(box, "▲ ");
-            }
-
-            //
-            if (mi.IsPublic)
-            {
-                AddModifier(box, "public");
-            }
-            else if (mi.IsPrivate)
-            {
-                AddModifier(box, "private");
-            }
-            else
-            {
-                AddModifier(box, "protected");
-            }
-
-            if (mi.IsStatic)
-            {
-                AddModifier(box, " static");
-            }
-
-            //
-            if (mi.IsVirtual)
-            {
-                AddModifier(box, " virtual");
-            }
-
-            box.AppendText(" ");
-
-            AddTypeName(box, mi.ReturnType.ToString());
-            AddMethodName(box, " " + mi.Name);
-        }
-
-        private void AddPropertyInfo(RichTextBox box, PropertyInfo pi)
-        {
-            AddInfo(box, "• ");
-            AddModifier(box,
-                (pi.GetMethod != null) && pi.GetMethod.IsPrivate && (pi.SetMethod != null) && pi.SetMethod.IsPrivate
-                    ? "private" : "public");
-            AddTypeName(box, " " + pi.PropertyType);
-            AddMethodName(box, " " + pi.Name);
-            AddPunctuation(box, " { ");
-            AddInfo(box, pi.CanRead ? "get; " : "");
-            AddInfo(box, pi.CanWrite ? "set " : "");
-            AddPunctuation(box, "}");
         }
 
         #endregion
