@@ -24,6 +24,7 @@ namespace NetTypeReflector
         private OpenFileDialog m_OpenFileDialog = null;
         private ViewHelper m_ViewHelper = new ViewHelper();
         private Type m_Type;
+        private MethodBase m_CurrentMemberInfo = null;
 
         #endregion
 
@@ -134,8 +135,10 @@ namespace NetTypeReflector
         private void richtxtInfo_SelectionChanged(Object sender, EventArgs e)
         {
             var mi = m_ViewHelper.Get(this.richtxtInfo, this.richtxtInfo.SelectionStart);
-            if (m_Type != null && mi != null)
+            if (m_Type != null && mi != null && mi != m_CurrentMemberInfo)
             {
+                m_CurrentMemberInfo = mi;
+
                 this.richtxtDetails.Clear();
 
                 var ci = mi as ConstructorInfo;
