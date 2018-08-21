@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 using System.Reflection;
 using System.Threading;
@@ -147,7 +148,9 @@ namespace NetTypeReflector
                     return;
                 }
 
-                OutputHelper.ShowMethodDetails(this.richtxtDetails, mi, m_Type);
+                bool isExtension = mi.IsDefined(typeof(ExtensionAttribute),true);
+
+                OutputHelper.ShowMethodDetails(this.richtxtDetails, mi, m_Type, isExtension);
             }
         }
 
@@ -281,8 +284,9 @@ namespace NetTypeReflector
                 });
                 foreach (MethodInfo mi in methods)
                 {
+                    bool isExtension = mi.IsDefined(typeof(ExtensionAttribute),true);
                     var position = box.Text.Length;
-                    OutputHelper.AddMethodInfo(box, mi, t);
+                    OutputHelper.AddMethodInfo(box, mi, t, isExtension);
                     m_ViewHelper.Add(mi, position, box.Text.Length - position);
                 }
             }

@@ -43,13 +43,15 @@ namespace NetTypeReflector
             box.AppendText(s, Color.FromArgb(86, 156, 214));
         }
 
-        private static void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline = false)
+        private static void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline, bool isExtension)
         {
             AddPunctuation(box, "(" + (multiline && parameters.Length > 0 ? "\n" : ""));
 
             for (var i = 0; i < parameters.Length; i++)
             {
-                AddTypeName(box, (multiline ? "    " : "") + parameters[i].ParameterType.ToString());
+                AddInfo(box, (multiline ? "    " : "")
+                    + (i == 0 && isExtension ? "this " : ""));
+                AddTypeName(box, parameters[i].ParameterType.ToString());
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
                 if (i < parameters.Length - 1)
@@ -71,13 +73,13 @@ namespace NetTypeReflector
             var position = box.Text.Length;
 
             AddConstructorInfoDescription(box, ci);
-            AddParameterInfo(box, ci.GetParameters());
+            AddParameterInfo(box, ci.GetParameters(), false, false);
         }
 
         public static void ShowConstructorDetails(RichTextBox box, ConstructorInfo ci)
         {
             AddConstructorInfoDescription(box, ci);
-            AddParameterInfo(box, ci.GetParameters(), true);
+            AddParameterInfo(box, ci.GetParameters(), true, false);
         }
 
         private static void AddConstructorInfoDescription(RichTextBox box, ConstructorInfo ci)
@@ -100,16 +102,16 @@ namespace NetTypeReflector
             AddMethodName(box, ci.Name);
         }
 
-        public static void AddMethodInfo(RichTextBox box, MethodInfo mi, Type t)
+        public static void AddMethodInfo(RichTextBox box, MethodInfo mi, Type t, bool isExtension)
         {
             AddMethodInfoDescription(box, mi, t);
-            AddParameterInfo(box, mi.GetParameters());
+            AddParameterInfo(box, mi.GetParameters(), false, isExtension);
         }
 
-        public static void ShowMethodDetails(RichTextBox box, MethodBase mi, Type t)
+        public static void ShowMethodDetails(RichTextBox box, MethodBase mi, Type t, bool isExtension)
         {
             AddMethodInfoDescription(box, (MethodInfo)mi, t);
-            AddParameterInfo(box, mi.GetParameters(), true);
+            AddParameterInfo(box, mi.GetParameters(), true, isExtension);
         }
 
         private static void AddMethodInfoDescription(RichTextBox box, MethodInfo mi, Type t)
