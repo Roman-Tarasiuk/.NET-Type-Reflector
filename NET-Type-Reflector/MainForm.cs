@@ -235,6 +235,8 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "-\n");
             }
 
+            OutputHelper.AddInfo(box, t.IsInterface ? "\nIs Interface\n" : "");
+
             OutputHelper.AddSection(box, "\n-------------------------------------------------\n");
 
             OutputHelper.AddSection(box, "\nConstructors:\n");
