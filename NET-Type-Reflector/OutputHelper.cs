@@ -64,7 +64,7 @@ namespace NetTypeReflector
                 }
             }
 
-            AddPunctuation(box, ")");
+            AddPunctuation(box, ");");
             box.AppendText("\n");
         }
 

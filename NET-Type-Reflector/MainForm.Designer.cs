@@ -1,4 +1,6 @@
-﻿namespace NetTypeReflector
+﻿using System.Windows.Forms;
+
+namespace NetTypeReflector
 {
     partial class MainForm
     {
@@ -182,7 +184,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(60, 13);
             this.label6.TabIndex = 13;
-            this.label6.Text = "Inst. / Stat.";
+            this.label6.Text = "Instance / Static";
             //
             // label5
             //
@@ -191,7 +193,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Acc. modif.";
+            this.label5.Text = "Access modifier";
             //
             // chkFlattenHierarchy
             //
@@ -220,10 +222,11 @@
             "Both",
             "Public",
             "NonPublic"});
-            this.comboVisibility.Location = new System.Drawing.Point(68, 42);
+            this.comboVisibility.Location = new System.Drawing.Point(98, 42);
             this.comboVisibility.Name = "comboVisibility";
-            this.comboVisibility.Size = new System.Drawing.Size(139, 21);
+            this.comboVisibility.Size = new System.Drawing.Size(109, 21);
             this.comboVisibility.TabIndex = 9;
+            this.comboVisibility.DropDownStyle = ComboBoxStyle.DropDownList;
             //
             // comboInstanceStatic
             //
@@ -232,10 +235,11 @@
             "Both",
             "Instance",
             "Static"});
-            this.comboInstanceStatic.Location = new System.Drawing.Point(68, 18);
+            this.comboInstanceStatic.Location = new System.Drawing.Point(98, 18);
             this.comboInstanceStatic.Name = "comboInstanceStatic";
-            this.comboInstanceStatic.Size = new System.Drawing.Size(139, 21);
+            this.comboInstanceStatic.Size = new System.Drawing.Size(109, 21);
             this.comboInstanceStatic.TabIndex = 8;
+            this.comboInstanceStatic.DropDownStyle = ComboBoxStyle.DropDownList;
             //
             // label4
             //
