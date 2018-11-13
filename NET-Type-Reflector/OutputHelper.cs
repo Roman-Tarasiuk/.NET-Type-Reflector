@@ -10,7 +10,7 @@ namespace NetTypeReflector
     {
         public static void AddSection(RichTextBox box, string s)
         {
-            box.AppendText(s, Color.FromArgb(100, 100, 100));
+            box.AppendText(s, Color.FromArgb(106, 153, 85));
         }
 
         public static void AddTypeName(RichTextBox box, string s)

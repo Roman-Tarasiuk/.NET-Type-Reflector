@@ -197,7 +197,7 @@ namespace NetTypeReflector
 
         private void TypeInfo(RichTextBox box, Type t, BindingFlags flags)
         {
-            OutputHelper.AddSection(box, "Type:\n");
+            OutputHelper.AddSection(box, "// Type:\n");
             OutputHelper.AddTypeName(box, t.FullName + "\n");
 
             if (t.IsSealed)
@@ -205,23 +205,23 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "[sealed]\n");
             }
 
-            OutputHelper.AddSection(box, "\nAssembly:\n");
+            OutputHelper.AddSection(box, "\n// Assembly:\n");
             OutputHelper.AddInfo(box, t.Assembly.FullName + "\n");
             OutputHelper.AddInfo(box, t.Assembly.Location + "\n");
 
-            OutputHelper.AddSection(box, "\nAttributes:\n");
+            OutputHelper.AddSection(box, "\n// Attributes:\n");
             OutputHelper.AddInfo(box, t.Attributes.ToString() + "\n");
 
-            OutputHelper.AddSection(box, "\nCustom Attributes:\n");
+            OutputHelper.AddSection(box, "\n// Custom Attributes:\n");
             foreach(var ca in t.CustomAttributes)
             {
                 OutputHelper.AddInfo(box, ca.ToString() + "\n");
             }
 
-            OutputHelper.AddSection(box, "\nBase Type:\n");
+            OutputHelper.AddSection(box, "\n// Base Type:\n");
             OutputHelper.AddTypeName(box, (t.BaseType != null ? t.BaseType.FullName : "No base type") + "\n");
 
-            OutputHelper.AddSection(box, "\nInterfaces:\n");
+            OutputHelper.AddSection(box, "\n// Interfaces:\n");
             Type[] interfaces = t.GetInterfaces();
             if (interfaces.Length > 0)
             {
@@ -239,7 +239,7 @@ namespace NetTypeReflector
 
             OutputHelper.AddSection(box, "\n-------------------------------------------------\n");
 
-            OutputHelper.AddSection(box, "\nConstructors:\n");
+            OutputHelper.AddSection(box, "\n// Constructors:\n");
             ConstructorInfo[] constructors = t.GetConstructors();
             if (constructors.Length > 0)
             {
@@ -256,7 +256,7 @@ namespace NetTypeReflector
             }
 
 
-            OutputHelper.AddSection(box, "\nMethods:\n");
+            OutputHelper.AddSection(box, "\n// Methods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
             if (methods.Length > 0)
             {
@@ -297,7 +297,7 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "-\n");
             }
 
-            OutputHelper.AddSection(box, "\nProperties:\n");
+            OutputHelper.AddSection(box, "\n// Properties:\n");
             PropertyInfo[] properties = t.GetProperties(flags);
             if (properties.Length > 0)
             {
@@ -314,7 +314,7 @@ namespace NetTypeReflector
 
             if (t.IsEnum)
             {
-                OutputHelper.AddSection(box, "\nEnum values:\n");
+                OutputHelper.AddSection(box, "\n// Enum values:\n");
                 var values = Enum.GetValues(t);
                 foreach (var v in values)
                 {
