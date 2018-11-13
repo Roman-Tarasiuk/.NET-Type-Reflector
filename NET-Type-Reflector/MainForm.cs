@@ -258,6 +258,44 @@ namespace NetTypeReflector
 
             OutputHelper.AddSection(box, "\n// Methods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
+
+            int CompareByVisibility(MethodInfo x, MethodInfo y)
+            {
+                if ((x.IsPublic && y.IsPublic)
+                    || (x.IsFamily && y.IsFamily)
+                    || (x.IsPrivate && y.IsPrivate))
+                {
+                    return 0;
+                }
+                else if (x.IsPublic && !y.IsPublic)
+                {
+                    return -1;
+                }
+                else if (x.IsFamily && y.IsPublic)
+                {
+                    return 1;
+                }
+                else if (x.IsFamily && y.IsPrivate)
+                {
+                    return -1;
+                }
+                else // x.IsPrivate;
+                {
+                    return 1; // x.IsPrivate && y.IsPrivate <- the first case for comparison.
+                }
+            }
+
+            Array.Sort(methods, (x, y) => {
+                if (x.IsStatic && !y.IsStatic) {
+                    return -1;
+                }
+                else if (!x.IsStatic && y.IsStatic) {
+                    return 1;
+                }
+                else {
+                    return CompareByVisibility(x, y);
+                }
+            });
             if (methods.Length > 0)
             {
                 Array.Sort(methods, (m1, m2) => {
