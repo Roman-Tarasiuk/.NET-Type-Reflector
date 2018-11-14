@@ -285,20 +285,10 @@ namespace NetTypeReflector
                 }
             }
 
-            Array.Sort(methods, (x, y) => {
-                if (x.IsStatic && !y.IsStatic) {
-                    return -1;
-                }
-                else if (!x.IsStatic && y.IsStatic) {
-                    return 1;
-                }
-                else {
-                    return CompareByVisibility(x, y);
-                }
-            });
             if (methods.Length > 0)
             {
                 Array.Sort(methods, (m1, m2) => {
+                    var compareByVisibility = CompareByVisibility(m1, m2);
                     // Methods declared in parent go first.
                     if (m1.DeclaringType != m2.DeclaringType)
                     {
@@ -306,20 +296,39 @@ namespace NetTypeReflector
                         {
                             return 1;
                         }
-                        else if (m2.DeclaringType == t)
+                        else // m2.DeclaringType == t
                         {
                             return -1;
                         }
-                        // Something weird...
-                        else
+                    }
+                    // Then sorting methods by other attributes and name.
+                    else if (m1.IsStatic != m2.IsStatic)
+                    {
+                        if (m1.IsStatic)
                         {
-                            return 0;
+                            return -1;
+                        }
+                        else // m2.IsStatic
+                        {
+                            return 1;
                         }
                     }
-                    // Then sorting methods by name.
+                    else if (compareByVisibility == 0)
+                    {
+                        if (!m1.IsVirtual && m2.IsVirtual)
+                        {
+                            return -1;
+                        }
+                        else if (m1.IsVirtual && !m2.IsVirtual)
+                        {
+                            return 1;
+                        }
+
+                        return m1.Name.CompareTo(m2.Name);
+                    }
                     else
                     {
-                        return m1.Name.CompareTo(m2.Name);
+                        return compareByVisibility;
                     }
                 });
                 foreach (MethodInfo mi in methods)
