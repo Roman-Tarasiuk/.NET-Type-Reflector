@@ -26,6 +26,8 @@ namespace NetTypeReflector
         private Type m_Type;
         private MethodBase m_CurrentMemberInfo = null;
 
+        NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         #endregion
 
 
@@ -37,6 +39,8 @@ namespace NetTypeReflector
 
             comboInstanceStatic.SelectedIndex = 0;
             comboVisibility.SelectedIndex = 0;
+
+            logger.Log(NLog.LogLevel.Info, "Main form has run.");
         }
 
         #endregion
@@ -259,23 +263,45 @@ namespace NetTypeReflector
             OutputHelper.AddSection(box, "\n// Methods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
 
-            int CompareByVisibility(MethodInfo x, MethodInfo y)
+            Func<MethodInfo, MethodInfo, int> CompareByVisibility = delegate(MethodInfo x, MethodInfo y)
             {
+                //if (x.IsStatic != y.IsStatic)
+                //{
+                //    throw new ArgumentException("WTF?");
+                //}
+
+                //if ((x.IsPublic && x.IsFamily && x.IsPrivate)
+                //    || (y.IsPublic && y.IsFamily && y.IsPrivate))
+                //{
+                //    throw new ArgumentException("WTF 2?");
+                //}
+
+                //if ((x.IsFamily && x.IsPrivate)
+                //    || (y.IsFamily && y.IsPrivate)
+                //    || (!x.IsPublic && !x.IsFamily && !x.IsPrivate)
+                //    || (!y.IsPublic && !y.IsFamily && !y.IsPrivate))
+                //{
+                //    throw new ArgumentException("WTF 3?");
+                //}
+
+                //
+
                 if ((x.IsPublic && y.IsPublic)
                     || (x.IsFamily && y.IsFamily)
+                    || (x.IsFamilyOrAssembly && y.IsFamilyOrAssembly)
                     || (x.IsPrivate && y.IsPrivate))
                 {
                     return 0;
                 }
-                else if (x.IsPublic && !y.IsPublic)
+                else if (x.IsPublic)
                 {
                     return -1;
                 }
-                else if (x.IsFamily && y.IsPublic)
+                else if ((x.IsFamily || x.IsFamilyOrAssembly) && y.IsPublic)
                 {
                     return 1;
                 }
-                else if (x.IsFamily && y.IsPrivate)
+                else if ((x.IsFamily || x.IsFamilyOrAssembly) && y.IsPrivate)
                 {
                     return -1;
                 }
@@ -283,12 +309,12 @@ namespace NetTypeReflector
                 {
                     return 1; // x.IsPrivate && y.IsPrivate <- the first case for comparison.
                 }
-            }
+            };
 
             if (methods.Length > 0)
             {
                 Array.Sort(methods, (m1, m2) => {
-                    var compareByVisibility = CompareByVisibility(m1, m2);
+                    int compareByVisibility;
                     // Methods declared in parent go first.
                     if (m1.DeclaringType != m2.DeclaringType)
                     {
@@ -313,24 +339,27 @@ namespace NetTypeReflector
                             return 1;
                         }
                     }
-                    else if (compareByVisibility == 0)
-                    {
-                        if (!m1.IsVirtual && m2.IsVirtual)
-                        {
-                            return -1;
-                        }
-                        else if (m1.IsVirtual && !m2.IsVirtual)
-                        {
-                            return 1;
-                        }
-
-                        return m1.Name.CompareTo(m2.Name);
-                    }
-                    else
+                    else if ((compareByVisibility = CompareByVisibility(m1, m2)) != 0)
                     {
                         return compareByVisibility;
                     }
+                    else if (m1.IsVirtual != m2.IsVirtual)
+                    {
+                        if (m1.IsVirtual)
+                        {
+                            return 1;
+                        }
+                        else // m2.IsVirtual
+                        {
+                            return -1;
+                        }
+                    }
+                    else
+                    {
+                        return m1.Name.CompareTo(m2.Name);
+                    }
                 });
+
                 foreach (MethodInfo mi in methods)
                 {
                     bool isExtension = mi.IsDefined(typeof(ExtensionAttribute),true);
