@@ -263,50 +263,77 @@ namespace NetTypeReflector
             OutputHelper.AddSection(box, "\n// Methods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
 
+            Func<MethodInfo, string> ToString = delegate(MethodInfo mi)
+            {
+                return String.Format("Name: {0}, IsPrivate: {1}, IsFamily: {2}, IsFamilyOrAssembly: {3}, IsPublic: {4}",
+                    mi.Name, mi.IsPrivate, mi.IsFamily, mi.IsFamilyOrAssembly, mi.IsPublic);
+            };
+
             Func<MethodInfo, MethodInfo, int> CompareByVisibility = delegate(MethodInfo x, MethodInfo y)
             {
-                //if (x.IsStatic != y.IsStatic)
-                //{
-                //    throw new ArgumentException("WTF?");
-                //}
+                if (x.IsStatic != y.IsStatic)
+                {
+                    throw new ArgumentException("WTF?");
+                }
 
-                //if ((x.IsPublic && x.IsFamily && x.IsPrivate)
-                //    || (y.IsPublic && y.IsFamily && y.IsPrivate))
-                //{
-                //    throw new ArgumentException("WTF 2?");
-                //}
+                if ((x.IsPublic && x.IsFamily && x.IsPrivate)
+                    || (y.IsPublic && y.IsFamily && y.IsPrivate))
+                {
+                    throw new ArgumentException("WTF 2?");
+                }
 
-                //if ((x.IsFamily && x.IsPrivate)
-                //    || (y.IsFamily && y.IsPrivate)
-                //    || (!x.IsPublic && !x.IsFamily && !x.IsPrivate)
-                //    || (!y.IsPublic && !y.IsFamily && !y.IsPrivate))
-                //{
-                //    throw new ArgumentException("WTF 3?");
-                //}
+                if ((x.IsFamily && x.IsPrivate)
+                    || (y.IsFamily && y.IsPrivate))
+                {
+                    throw new ArgumentException("WTF 3?");
+                }
+
+                var logStr = ToString(x) + " <--> " + ToString(y);
+                logger.Log(NLog.LogLevel.Info, logStr);
 
                 //
 
                 if ((x.IsPublic && y.IsPublic)
                     || (x.IsFamily && y.IsFamily)
-                    || (x.IsFamilyOrAssembly && y.IsFamilyOrAssembly)
                     || (x.IsPrivate && y.IsPrivate))
                 {
+                    logger.Log(NLog.LogLevel.Info, "** 1");
                     return 0;
                 }
                 else if (x.IsPublic)
                 {
+                    logger.Log(NLog.LogLevel.Info, "** 2");
                     return -1;
                 }
-                else if ((x.IsFamily || x.IsFamilyOrAssembly) && y.IsPublic)
+                else if (x.IsFamily && y.IsPublic)
                 {
+                    logger.Log(NLog.LogLevel.Info, "** 3");
                     return 1;
                 }
-                else if ((x.IsFamily || x.IsFamilyOrAssembly) && y.IsPrivate)
+                else if (x.IsFamily && y.IsPrivate)
                 {
+                    logger.Log(NLog.LogLevel.Info, "** 4");
                     return -1;
                 }
                 else // x.IsPrivate;
                 {
+                    if (!x.IsPrivate && !x.IsPublic && !y.IsPrivate && !y.IsPublic)
+                    {
+                        logger.Log(NLog.LogLevel.Info, "** 5");
+                        return 0;
+                    }
+                    else if (!x.IsPrivate && !x.IsPublic)
+                    {
+                        logger.Log(NLog.LogLevel.Info, "** 6");
+                        return -1;
+                    }
+                    else if (!y.IsPrivate && !y.IsPublic)
+                    {
+                        logger.Log(NLog.LogLevel.Info, "** 7");
+                        return 1;
+                    }
+
+                    logger.Log(NLog.LogLevel.Info, "** 8");
                     return 1; // x.IsPrivate && y.IsPrivate <- the first case for comparison.
                 }
             };
