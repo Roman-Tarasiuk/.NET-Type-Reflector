@@ -123,6 +123,11 @@ namespace NetTypeReflector
                 AddInfo(box, "▲ ");
             }
 
+            if (!mi.IsPrivate && !mi.IsPublic && !mi.IsFamily)
+            {
+                AddInfo(box, "* ");
+            }
+
             //
             if (mi.IsPublic)
             {

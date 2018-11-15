@@ -268,9 +268,14 @@ namespace NetTypeReflector
                     mi.Name, mi.IsPrivate, mi.IsFamily, mi.IsFamilyOrAssembly, mi.IsPublic);
             };
 
+            Func<MethodInfo, bool> IsSpecial = delegate(MethodInfo mi) 
+            {
+                return !mi.IsPrivate && !mi.IsPublic && !mi.IsFamily;
+            };
+
             Func<MethodInfo, MethodInfo, int> CompareByVisibility = delegate(MethodInfo x, MethodInfo y)
             {
-            #if DEBUG
+              #if DEBUG
                 if (x.IsStatic != y.IsStatic)
                 {
                     throw new ArgumentException("WTF?");
@@ -290,53 +295,75 @@ namespace NetTypeReflector
 
                 var logStr = ToString(x) + " <--> " + ToString(y);
                 logger.Log(NLog.LogLevel.Info, logStr);
-            #endif
+              #endif
 
                 //
 
-                if ((x.IsPublic && y.IsPublic && !x.IsPrivate && !y.IsPrivate)
+                if ((x.IsPublic && y.IsPublic)
                     || (x.IsFamily && y.IsFamily)
-                    || (x.IsPrivate && y.IsPrivate && !x.IsPublic && !y.IsPublic))
+                    || (x.IsPrivate && y.IsPrivate))
                 {
-                #if DEBUG
+                  #if DEBUG
                     logger.Log(NLog.LogLevel.Info, "** 1");
-                #endif
+                  #endif
                     return 0;
+                }
+                else if (IsSpecial(x) || IsSpecial(y))
+                {
+                    if (IsSpecial(x) && IsSpecial(y))
+                    {
+                      #if DEBUG
+                        logger.Log(NLog.LogLevel.Info, "** 2");
+                      #endif
+                        return 0;
+                    }
+                    else if (IsSpecial(x))
+                    {
+                      #if DEBUG
+                        logger.Log(NLog.LogLevel.Info, "** 3");
+                      #endif
+                        return 1; // Eventually it is private
+                    }
+                    else if (IsSpecial(y))
+                    {
+                      #if DEBUG
+                        logger.Log(NLog.LogLevel.Info, "** 4");
+                      #endif
+                        return -1; // Eventually it is private
+                    }
+                  #if DEBUG
+                    else
+                    {
+                        throw new ArgumentException("WTF 4?");
+                    }
+                  #endif
                 }
                 else if (x.IsPublic)
                 {
-                    logger.Log(NLog.LogLevel.Info, "** 2");
+                  #if DEBUG
+                    logger.Log(NLog.LogLevel.Info, "** 5");
+                  #endif
                     return -1;
                 }
                 else if (x.IsFamily && y.IsPublic)
                 {
-                    logger.Log(NLog.LogLevel.Info, "** 3");
+                  #if DEBUG
+                    logger.Log(NLog.LogLevel.Info, "** 6");
+                  #endif
                     return 1;
                 }
                 else if (x.IsFamily && y.IsPrivate)
                 {
-                    logger.Log(NLog.LogLevel.Info, "** 4");
+                  #if DEBUG
+                    logger.Log(NLog.LogLevel.Info, "** 7");
+                  #endif
                     return -1;
                 }
-                else // x.IsPrivate;
+                //else // x.IsPrivate;
                 {
-                    if (!x.IsPrivate && !x.IsPublic && !y.IsPrivate && !y.IsPublic)
-                    {
-                        logger.Log(NLog.LogLevel.Info, "** 5");
-                        return 0;
-                    }
-                    else if (!x.IsPrivate && !x.IsPublic)
-                    {
-                        logger.Log(NLog.LogLevel.Info, "** 6");
-                        return -1;
-                    }
-                    else if (!y.IsPrivate && !y.IsPublic)
-                    {
-                        logger.Log(NLog.LogLevel.Info, "** 7");
-                        return 1;
-                    }
-
+                  #if DEBUG
                     logger.Log(NLog.LogLevel.Info, "** 8");
+                  #endif
                     return 1; // x.IsPrivate && y.IsPrivate <- the first case for comparison.
                 }
             };
