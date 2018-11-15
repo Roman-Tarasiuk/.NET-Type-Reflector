@@ -25,8 +25,7 @@ namespace NetTypeReflector
         private ViewHelper m_ViewHelper = new ViewHelper();
         private Type m_Type;
         private MethodBase m_CurrentMemberInfo = null;
-
-        NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -271,6 +270,7 @@ namespace NetTypeReflector
 
             Func<MethodInfo, MethodInfo, int> CompareByVisibility = delegate(MethodInfo x, MethodInfo y)
             {
+            #if DEBUG
                 if (x.IsStatic != y.IsStatic)
                 {
                     throw new ArgumentException("WTF?");
@@ -290,14 +290,17 @@ namespace NetTypeReflector
 
                 var logStr = ToString(x) + " <--> " + ToString(y);
                 logger.Log(NLog.LogLevel.Info, logStr);
+            #endif
 
                 //
 
-                if ((x.IsPublic && y.IsPublic)
+                if ((x.IsPublic && y.IsPublic && !x.IsPrivate && !y.IsPrivate)
                     || (x.IsFamily && y.IsFamily)
-                    || (x.IsPrivate && y.IsPrivate))
+                    || (x.IsPrivate && y.IsPrivate && !x.IsPublic && !y.IsPublic))
                 {
+                #if DEBUG
                     logger.Log(NLog.LogLevel.Info, "** 1");
+                #endif
                     return 0;
                 }
                 else if (x.IsPublic)
@@ -509,6 +512,6 @@ namespace NetTypeReflector
                 + m_AssemblyTypes.Count.ToString() + " types";
         }
 
-        #endregion
+#endregion
     }
 }
