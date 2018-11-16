@@ -359,13 +359,11 @@ namespace NetTypeReflector
                   #endif
                     return -1;
                 }
-                //else // x.IsPrivate;
-                {
-                  #if DEBUG
-                    logger.Log(NLog.LogLevel.Info, "** 8");
-                  #endif
-                    return 1; // x.IsPrivate && y.IsPrivate <- the first case for comparison.
-                }
+
+              #if DEBUG
+                logger.Log(NLog.LogLevel.Info, "** 8");
+              #endif
+                return 1; // ?
             };
 
             if (methods.Length > 0)
@@ -539,6 +537,17 @@ namespace NetTypeReflector
                 + m_AssemblyTypes.Count.ToString() + " types";
         }
 
-#endregion
+        #endregion
+
+        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Methods marked with '*' have"
+                        + "\nall the IsPrivate, IsPublic and IsFamily properties 'false' –"
+                        + "\nthey are some special/specific"
+                        + "\n(and also hidden from the class users) methods."
+                        + "\n(E.g. see the System.String class.)"
+                        + "\n\nMethods marked with '▲' are inherited from the class parent.",
+                this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

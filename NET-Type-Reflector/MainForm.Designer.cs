@@ -63,6 +63,9 @@ namespace NetTypeReflector
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.richtxtDetails = new System.Windows.Forms.RichTextBox();
             this.btnToggleLeft = new System.Windows.Forms.Button();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -76,10 +79,10 @@ namespace NetTypeReflector
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // txtTypeName
-            //
-            this.txtTypeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.txtTypeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTypeName.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtTypeName.Location = new System.Drawing.Point(7, 18);
@@ -87,28 +90,28 @@ namespace NetTypeReflector
             this.txtTypeName.Size = new System.Drawing.Size(240, 20);
             this.txtTypeName.TabIndex = 1;
             this.txtTypeName.Text = "System.Object";
-            //
+            // 
             // label1
-            //
+            // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(4, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Fully quialified name:";
-            //
+            // 
             // txtAssemblyPath
-            //
-            this.txtAssemblyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.txtAssemblyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAssemblyPath.Location = new System.Drawing.Point(3, 2);
             this.txtAssemblyPath.Name = "txtAssemblyPath";
             this.txtAssemblyPath.Size = new System.Drawing.Size(244, 20);
             this.txtAssemblyPath.TabIndex = 4;
             this.txtAssemblyPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAssemblyPath_KeyDown);
-            //
+            // 
             // btnSelectAssembly
-            //
+            // 
             this.btnSelectAssembly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectAssembly.Location = new System.Drawing.Point(251, 0);
             this.btnSelectAssembly.Name = "btnSelectAssembly";
@@ -117,11 +120,11 @@ namespace NetTypeReflector
             this.btnSelectAssembly.Text = "...";
             this.btnSelectAssembly.UseVisualStyleBackColor = true;
             this.btnSelectAssembly.Click += new System.EventHandler(this.btnSelectAssembly_Click);
-            //
+            // 
             // lstbxTypes
-            //
-            this.lstbxTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.lstbxTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstbxTypes.FormattingEnabled = true;
             this.lstbxTypes.IntegralHeight = false;
@@ -131,11 +134,11 @@ namespace NetTypeReflector
             this.lstbxTypes.TabIndex = 6;
             this.lstbxTypes.SelectedIndexChanged += new System.EventHandler(this.lstTypes_SelectedIndexChanged);
             this.lstbxTypes.DoubleClick += new System.EventHandler(this.lstbxTypes_DoubleClick);
-            //
+            // 
             // richtxtInfo
-            //
-            this.richtxtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.richtxtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richtxtInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.richtxtInfo.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -146,9 +149,9 @@ namespace NetTypeReflector
             this.richtxtInfo.Text = "";
             this.richtxtInfo.WordWrap = false;
             this.richtxtInfo.SelectionChanged += new System.EventHandler(this.richtxtInfo_SelectionChanged);
-            //
+            // 
             // btnShowInfo
-            //
+            // 
             this.btnShowInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnShowInfo.Location = new System.Drawing.Point(248, 17);
@@ -159,10 +162,10 @@ namespace NetTypeReflector
             this.btnShowInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnShowInfo.UseVisualStyleBackColor = true;
             this.btnShowInfo.Click += new System.EventHandler(this.btnShowInfo_Click);
-            //
+            // 
             // groupBox1
-            //
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
@@ -176,27 +179,27 @@ namespace NetTypeReflector
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Members attributes:";
-            //
+            // 
             // label6
-            //
+            // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 21);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(60, 13);
+            this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 13;
             this.label6.Text = "Instance / Static";
-            //
+            // 
             // label5
-            //
+            // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 45);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.Size = new System.Drawing.Size(81, 13);
             this.label5.TabIndex = 12;
             this.label5.Text = "Access modifier";
-            //
+            // 
             // chkFlattenHierarchy
-            //
+            // 
             this.chkFlattenHierarchy.AutoSize = true;
             this.chkFlattenHierarchy.Location = new System.Drawing.Point(107, 69);
             this.chkFlattenHierarchy.Name = "chkFlattenHierarchy";
@@ -204,9 +207,9 @@ namespace NetTypeReflector
             this.chkFlattenHierarchy.TabIndex = 11;
             this.chkFlattenHierarchy.Text = "Flatten hierarchy";
             this.chkFlattenHierarchy.UseVisualStyleBackColor = true;
-            //
+            // 
             // chkDeclaredOnly
-            //
+            // 
             this.chkDeclaredOnly.AutoSize = true;
             this.chkDeclaredOnly.Location = new System.Drawing.Point(6, 69);
             this.chkDeclaredOnly.Name = "chkDeclaredOnly";
@@ -214,9 +217,10 @@ namespace NetTypeReflector
             this.chkDeclaredOnly.TabIndex = 10;
             this.chkDeclaredOnly.Text = "Declared only";
             this.chkDeclaredOnly.UseVisualStyleBackColor = true;
-            //
+            // 
             // comboVisibility
-            //
+            // 
+            this.comboVisibility.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboVisibility.FormattingEnabled = true;
             this.comboVisibility.Items.AddRange(new object[] {
             "Both",
@@ -226,10 +230,10 @@ namespace NetTypeReflector
             this.comboVisibility.Name = "comboVisibility";
             this.comboVisibility.Size = new System.Drawing.Size(109, 21);
             this.comboVisibility.TabIndex = 9;
-            this.comboVisibility.DropDownStyle = ComboBoxStyle.DropDownList;
-            //
+            // 
             // comboInstanceStatic
-            //
+            // 
+            this.comboInstanceStatic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInstanceStatic.FormattingEnabled = true;
             this.comboInstanceStatic.Items.AddRange(new object[] {
             "Both",
@@ -239,10 +243,9 @@ namespace NetTypeReflector
             this.comboInstanceStatic.Name = "comboInstanceStatic";
             this.comboInstanceStatic.Size = new System.Drawing.Size(109, 21);
             this.comboInstanceStatic.TabIndex = 8;
-            this.comboInstanceStatic.DropDownStyle = ComboBoxStyle.DropDownList;
-            //
+            // 
             // label4
-            //
+            // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 331);
@@ -250,9 +253,9 @@ namespace NetTypeReflector
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 14;
             this.label4.Text = "Filter:";
-            //
+            // 
             // btnFilter
-            //
+            // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnFilter.Image = ((System.Drawing.Image)(resources.GetObject("btnFilter.Image")));
@@ -262,18 +265,18 @@ namespace NetTypeReflector
             this.btnFilter.TabIndex = 16;
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            //
+            // 
             // txtFilter
-            //
-            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilter.Location = new System.Drawing.Point(3, 347);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(213, 20);
             this.txtFilter.TabIndex = 15;
-            //
+            // 
             // btnClearFilter
-            //
+            // 
             this.btnClearFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnClearFilter.Image = ((System.Drawing.Image)(resources.GetObject("btnClearFilter.Image")));
@@ -283,9 +286,9 @@ namespace NetTypeReflector
             this.btnClearFilter.TabIndex = 17;
             this.btnClearFilter.UseVisualStyleBackColor = true;
             this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
-            //
+            // 
             // chkWrapLines
-            //
+            // 
             this.chkWrapLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkWrapLines.AutoSize = true;
             this.chkWrapLines.Location = new System.Drawing.Point(651, 3);
@@ -295,9 +298,9 @@ namespace NetTypeReflector
             this.chkWrapLines.Text = "Wrap lines";
             this.chkWrapLines.UseVisualStyleBackColor = true;
             this.chkWrapLines.CheckedChanged += new System.EventHandler(this.chkWrapLines_CheckedChanged);
-            //
+            // 
             // lblCount
-            //
+            // 
             this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCount.AutoSize = true;
             this.lblCount.Location = new System.Drawing.Point(32, 313);
@@ -305,78 +308,79 @@ namespace NetTypeReflector
             this.lblCount.Size = new System.Drawing.Size(36, 13);
             this.lblCount.TabIndex = 19;
             this.lblCount.Text = "... / ...";
-            //
+            // 
             // menuStrip1
-            //
+            // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1025, 24);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
-            //
+            // 
             // fileToolStripMenuItem
-            //
+            // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            //
+            // 
             // exitToolStripMenuItem
-            //
+            // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            //
+            // 
             // editToolStripMenuItem
-            //
+            // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.searchToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
-            //
+            // 
             // searchToolStripMenuItem
-            //
+            // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.searchToolStripMenuItem.Text = "Search...";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
-            //
+            // 
             // splitContainer1
-            //
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 27);
             this.splitContainer1.Name = "splitContainer1";
-            //
+            // 
             // splitContainer1.Panel1
-            //
+            // 
             this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.txtTypeName);
             this.splitContainer1.Panel1.Controls.Add(this.btnShowInfo);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            //
+            // 
             // splitContainer1.Panel2
-            //
+            // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.chkWrapLines);
             this.splitContainer1.Panel2.Controls.Add(this.btnToggleLeft);
             this.splitContainer1.Size = new System.Drawing.Size(1025, 537);
             this.splitContainer1.SplitterDistance = 291;
             this.splitContainer1.TabIndex = 21;
-            //
+            // 
             // tabControl1
-            //
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -385,9 +389,9 @@ namespace NetTypeReflector
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(289, 399);
             this.tabControl1.TabIndex = 0;
-            //
+            // 
             // tabPage1
-            //
+            // 
             this.tabPage1.Controls.Add(this.lblCount);
             this.tabPage1.Controls.Add(this.txtAssemblyPath);
             this.tabPage1.Controls.Add(this.btnSelectAssembly);
@@ -403,9 +407,9 @@ namespace NetTypeReflector
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Assembly";
             this.tabPage1.UseVisualStyleBackColor = true;
-            //
+            // 
             // tabPage2
-            //
+            // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -413,32 +417,32 @@ namespace NetTypeReflector
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "History";
             this.tabPage2.UseVisualStyleBackColor = true;
-            //
+            // 
             // splitContainer2
-            //
-            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer2.Location = new System.Drawing.Point(3, 18);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            //
+            // 
             // splitContainer2.Panel1
-            //
+            // 
             this.splitContainer2.Panel1.Controls.Add(this.richtxtInfo);
-            //
+            // 
             // splitContainer2.Panel2
-            //
+            // 
             this.splitContainer2.Panel2.Controls.Add(this.richtxtDetails);
             this.splitContainer2.Size = new System.Drawing.Size(727, 519);
             this.splitContainer2.SplitterDistance = 343;
             this.splitContainer2.TabIndex = 19;
-            //
+            // 
             // richtxtDetails
-            //
-            this.richtxtDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // 
+            this.richtxtDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richtxtDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.richtxtDetails.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -447,18 +451,42 @@ namespace NetTypeReflector
             this.richtxtDetails.Size = new System.Drawing.Size(727, 171);
             this.richtxtDetails.TabIndex = 0;
             this.richtxtDetails.Text = "";
-            //
+            // 
             // btnToggleLeft
-            //
+            // 
+            this.btnToggleLeft.Enabled = false;
             this.btnToggleLeft.Location = new System.Drawing.Point(2, 0);
             this.btnToggleLeft.Name = "btnToggleLeft";
             this.btnToggleLeft.Size = new System.Drawing.Size(32, 19);
             this.btnToggleLeft.TabIndex = 20;
             this.btnToggleLeft.Text = "<<";
             this.btnToggleLeft.UseVisualStyleBackColor = true;
-            //
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // viewHelpToolStripMenuItem
+            // 
+            this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewHelpToolStripMenuItem.Text = "View Help...";
+            this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Enabled = false;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "About...";
+            // 
             // MainForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1025, 563);
@@ -524,6 +552,9 @@ namespace NetTypeReflector
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox richtxtDetails;
         private System.Windows.Forms.Button btnToggleLeft;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem viewHelpToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 
