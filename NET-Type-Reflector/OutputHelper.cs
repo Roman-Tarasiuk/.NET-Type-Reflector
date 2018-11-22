@@ -46,11 +46,9 @@ namespace NetTypeReflector
 
         private static string FormatGenericType(string typeName)
         {
-            var re = new Regex(@"`.*(?=\[)");
-            
-            var result = re.Replace(typeName, "").ToString()
-                .Replace("[", "<")
-                .Replace("]", ">");
+            var re = new Regex(@"`.+\[(.+)\]");
+
+            var result = re.Replace(typeName, "<$1>").ToString();            
             
             return result;
         }
