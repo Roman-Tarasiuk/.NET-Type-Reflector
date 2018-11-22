@@ -61,6 +61,11 @@ namespace NetTypeReflector
             {
                 AddKeyWord(box, (multiline ? "    " : "")
                     + (i == 0 && isExtension ? "this " : ""));
+
+                AddKeyWord(box, parameters[i].IsIn ? "in " : "");
+                AddKeyWord(box, parameters[i].IsOut ? "out " : "");
+                AddKeyWord(box, parameters[i].ParameterType.IsByRef && !parameters[i].IsOut ? "ref " : "");
+
                 AddTypeName(box, FormatGenericType(parameters[i].ParameterType.ToString()));
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
