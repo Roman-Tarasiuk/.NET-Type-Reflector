@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Drawing;
 using Extensions;
+using System.Text.RegularExpressions;
 
 namespace NetTypeReflector
 {
@@ -38,9 +39,20 @@ namespace NetTypeReflector
             box.AppendText(s, Color.FromArgb(212, 212, 212));
         }
 
-        private static void AddModifier(RichTextBox box, string s)
+        private static void AddKeyWord(RichTextBox box, string s)
         {
             box.AppendText(s, Color.FromArgb(86, 156, 214));
+        }
+
+        private static string FormatGenericType(string typeName)
+        {
+            var re = new Regex(@"`.*(?=\[)");
+            
+            var result = re.Replace(typeName, "").ToString()
+                .Replace("[", "<")
+                .Replace("]", ">");
+            
+            return result;
         }
 
         private static void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline, bool isExtension)
@@ -49,9 +61,9 @@ namespace NetTypeReflector
 
             for (var i = 0; i < parameters.Length; i++)
             {
-                AddInfo(box, (multiline ? "    " : "")
+                AddKeyWord(box, (multiline ? "    " : "")
                     + (i == 0 && isExtension ? "this " : ""));
-                AddTypeName(box, parameters[i].ParameterType.ToString());
+                AddTypeName(box, FormatGenericType(parameters[i].ParameterType.ToString()));
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
                 if (i < parameters.Length - 1)
@@ -86,15 +98,15 @@ namespace NetTypeReflector
         {
             if (ci.IsPrivate)
             {
-                AddModifier(box, "private");
+                AddKeyWord(box, "private");
             }
             else if (ci.IsPublic)
             {
-                AddModifier(box, "public");
+                AddKeyWord(box, "public");
             }
             else if (ci.IsFamily)
             {
-                AddModifier(box, "protected");
+                AddKeyWord(box, "protected");
             }
 
             box.AppendText(" ");
@@ -131,38 +143,38 @@ namespace NetTypeReflector
             //
             if (mi.IsPublic)
             {
-                AddModifier(box, "public");
+                AddKeyWord(box, "public");
             }
             else if (mi.IsPrivate)
             {
-                AddModifier(box, "private");
+                AddKeyWord(box, "private");
             }
             else
             {
-                AddModifier(box, "protected");
+                AddKeyWord(box, "protected");
             }
 
             if (mi.IsStatic)
             {
-                AddModifier(box, " static");
+                AddKeyWord(box, " static");
             }
 
             //
             if (mi.IsVirtual)
             {
-                AddModifier(box, " virtual");
+                AddKeyWord(box, " virtual");
             }
 
             box.AppendText(" ");
 
-            AddTypeName(box, mi.ReturnType.ToString());
+            AddTypeName(box, FormatGenericType(mi.ReturnType.ToString()));
             AddMethodName(box, " " + mi.Name);
         }
 
         public static void AddPropertyInfo(RichTextBox box, PropertyInfo pi)
         {
             AddInfo(box, "• ");
-            AddModifier(box,
+            AddKeyWord(box,
                 (pi.GetMethod != null) && pi.GetMethod.IsPrivate && (pi.SetMethod != null) && pi.SetMethod.IsPrivate
                     ? "private" : "public");
             AddTypeName(box, " " + pi.PropertyType);
