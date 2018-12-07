@@ -355,7 +355,8 @@ namespace NetTypeReflector
             AddKeyWord(box,
                 (pi.GetMethod != null) && pi.GetMethod.IsPrivate && (pi.SetMethod != null) && pi.SetMethod.IsPrivate
                     ? "private" : "public");
-            AddTypeName(box, " " + pi.PropertyType);
+            AddInfo(box, " ");
+            AddTypeName(box, pi.PropertyType);
             AddMethodName(box, " " + pi.Name);
             AddPunctuation(box, " { ");
             AddInfo(box, pi.CanRead ? "get; " : "");
