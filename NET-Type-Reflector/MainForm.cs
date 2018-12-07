@@ -169,6 +169,9 @@ namespace NetTypeReflector
                 return;
             }
 
+            OutputHelper.FullQualifiedTypeNames = this.chkFullyQualifiedTypeNames.Checked;
+            OutputHelper.KeywordTypeNames = this.chkKeyworfTypeNames.Checked;
+
             this.m_ViewHelper.Clear();
             this.richtxtInfo.Clear();
             this.richtxtDetails.Clear();
@@ -200,6 +203,8 @@ namespace NetTypeReflector
 
         private void TypeInfo(RichTextBox box, Type t, BindingFlags flags)
         {
+            //// ******* ******* *******
+
             OutputHelper.AddSection(box, "// Type:\n");
             OutputHelper.AddTypeName(box, t.FullName + "\n");
 
@@ -208,12 +213,18 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "[sealed]\n");
             }
 
+            // ******* ******* *******
+
             OutputHelper.AddSection(box, "\n// Assembly:\n");
             OutputHelper.AddInfo(box, t.Assembly.FullName + "\n");
             OutputHelper.AddInfo(box, t.Assembly.Location + "\n");
 
+            // ******* ******* *******
+
             OutputHelper.AddSection(box, "\n// Attributes:\n");
             OutputHelper.AddInfo(box, t.Attributes.ToString() + "\n");
+
+            // ******* ******* *******
 
             OutputHelper.AddSection(box, "\n// Custom Attributes:\n");
             foreach(var ca in t.CustomAttributes)
@@ -221,8 +232,12 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, ca.ToString() + "\n");
             }
 
+            // ******* ******* *******
+
             OutputHelper.AddSection(box, "\n// Base Type:\n");
             OutputHelper.AddTypeName(box, (t.BaseType != null ? t.BaseType.FullName : "No base type") + "\n");
+
+            // ******* ******* *******
 
             OutputHelper.AddSection(box, "\n// Interfaces:\n");
             Type[] interfaces = t.GetInterfaces();
@@ -239,6 +254,8 @@ namespace NetTypeReflector
             }
 
             OutputHelper.AddInfo(box, t.IsInterface ? "\nIs Interface\n" : "");
+
+            // ******* ******* *******
 
             OutputHelper.AddSection(box, "\n-------------------------------------------------\n");
 
@@ -258,6 +275,7 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "-\n");
             }
 
+            // ******* ******* *******
 
             OutputHelper.AddSection(box, "\n// Methods:\n");
             MethodInfo[] methods = t.GetMethods(flags);
@@ -428,6 +446,8 @@ namespace NetTypeReflector
                 OutputHelper.AddInfo(box, "-\n");
             }
 
+            // ******* ******* *******
+
             OutputHelper.AddSection(box, "\n// Properties:\n");
             PropertyInfo[] properties = t.GetProperties(flags);
             if (properties.Length > 0)
@@ -442,6 +462,8 @@ namespace NetTypeReflector
             {
                 OutputHelper.AddInfo(box, "-\n");
             }
+
+            // ******* ******* *******
 
             if (t.IsEnum)
             {

@@ -9,6 +9,24 @@ namespace NetTypeReflector
 {
     internal static class OutputHelper
     {
+        #region Properties
+
+        public static bool FullQualifiedTypeNames { get; set; }
+        public static bool KeywordTypeNames { get; set; }
+
+        #endregion
+
+
+        #region Constructor
+
+        static OutputHelper()
+        {
+            FullQualifiedTypeNames = false;
+            KeywordTypeNames = true;
+        }
+
+        #endregion
+
         public static void AddSection(RichTextBox box, string s)
         {
             box.AppendText(s, Color.FromArgb(106, 153, 85));
@@ -53,6 +71,47 @@ namespace NetTypeReflector
             return result;
         }
 
+        private static string TypeToKeyword(Type t)
+        {
+            switch (t.Name)
+            {
+                case "Boolean":
+                    return "bool";
+                case "Byte":
+                    return "byte";
+                case "SByte":
+                    return "sbyte";
+                case "Char":
+                    return "char";
+                case "Decimal":
+                    return "decimal";
+                case "Double":
+                    return "double";
+                case "Single":
+                    return "float";
+                case "Int32":
+                    return "int";
+                case "UInt32":
+                    return "uint";
+                case "Int64":
+                    return "long";
+                case "UInt64":
+                    return "ulong";
+                case "Object":
+                    return "object";
+                case "Int16":
+                    return "short";
+                case "UInt16":
+                    return "ushort";
+                case "String":
+                    return "string";
+                case "Void":
+                    return "void";
+                default:
+                    return t.Name;
+            }
+        }
+
         private static void AddParameterInfo(RichTextBox box, ParameterInfo[] parameters, bool multiline, bool isExtension)
         {
             AddPunctuation(box, "(" + (multiline && parameters.Length > 0 ? "\n" : ""));
@@ -66,7 +125,28 @@ namespace NetTypeReflector
                 AddKeyWord(box, parameters[i].IsOut ? "out " : "");
                 AddKeyWord(box, parameters[i].ParameterType.IsByRef && !parameters[i].IsOut ? "ref " : "");
 
-                AddTypeName(box, FormatGenericType(parameters[i].ParameterType.ToString()));
+                bool isKeywordType = false;
+
+                if (KeywordTypeNames)
+                {
+                    var keyword = TypeToKeyword(parameters[i].ParameterType);
+
+                    if (keyword != parameters[i].ParameterType.Name)
+                    {
+                        AddKeyWord(box, keyword);
+                        isKeywordType = true;
+                    }
+                }
+                
+                if (!KeywordTypeNames || !isKeywordType)
+                {
+                    AddTypeName(box,
+                        FormatGenericType(FullQualifiedTypeNames ?
+                            parameters[i].ParameterType.FullName :
+                            parameters[i].ParameterType.Name )
+                    );
+                }
+
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
                 if (i < parameters.Length - 1)
@@ -170,7 +250,28 @@ namespace NetTypeReflector
 
             box.AppendText(" ");
 
-            AddTypeName(box, FormatGenericType(mi.ReturnType.ToString()));
+            bool isKeywordType = false;
+
+            if (KeywordTypeNames)
+            {
+                var keyword = TypeToKeyword(mi.ReturnType);
+
+                if (keyword != mi.ReturnType.Name)
+                {
+                    AddKeyWord(box, keyword);
+                    isKeywordType = true;
+                }
+            }
+            
+            if (!KeywordTypeNames || !isKeywordType)
+            {
+                AddTypeName(box,
+                    FormatGenericType(FullQualifiedTypeNames ?
+                        mi.ReturnType.FullName :
+                        mi.ReturnType.Name )
+                );
+            }
+
             AddMethodName(box, " " + mi.Name);
         }
 

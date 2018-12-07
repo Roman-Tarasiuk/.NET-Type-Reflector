@@ -43,6 +43,8 @@ namespace NetTypeReflector
             this.label5 = new System.Windows.Forms.Label();
             this.chkFlattenHierarchy = new System.Windows.Forms.CheckBox();
             this.chkDeclaredOnly = new System.Windows.Forms.CheckBox();
+            this.chkFullyQualifiedTypeNames = new System.Windows.Forms.CheckBox();
+            this.chkKeyworfTypeNames = new System.Windows.Forms.CheckBox();
             this.comboVisibility = new System.Windows.Forms.ComboBox();
             this.comboInstanceStatic = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -171,11 +173,13 @@ namespace NetTypeReflector
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.chkFlattenHierarchy);
             this.groupBox1.Controls.Add(this.chkDeclaredOnly);
+            this.groupBox1.Controls.Add(this.chkFullyQualifiedTypeNames);
+            this.groupBox1.Controls.Add(this.chkKeyworfTypeNames);
             this.groupBox1.Controls.Add(this.comboVisibility);
             this.groupBox1.Controls.Add(this.comboInstanceStatic);
             this.groupBox1.Location = new System.Drawing.Point(7, 43);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(282, 91);
+            this.groupBox1.Size = new System.Drawing.Size(282, 111);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Members attributes:";
@@ -198,16 +202,6 @@ namespace NetTypeReflector
             this.label5.TabIndex = 12;
             this.label5.Text = "Access modifier";
             // 
-            // chkFlattenHierarchy
-            // 
-            this.chkFlattenHierarchy.AutoSize = true;
-            this.chkFlattenHierarchy.Location = new System.Drawing.Point(107, 69);
-            this.chkFlattenHierarchy.Name = "chkFlattenHierarchy";
-            this.chkFlattenHierarchy.Size = new System.Drawing.Size(104, 17);
-            this.chkFlattenHierarchy.TabIndex = 11;
-            this.chkFlattenHierarchy.Text = "Flatten hierarchy";
-            this.chkFlattenHierarchy.UseVisualStyleBackColor = true;
-            // 
             // chkDeclaredOnly
             // 
             this.chkDeclaredOnly.AutoSize = true;
@@ -217,6 +211,37 @@ namespace NetTypeReflector
             this.chkDeclaredOnly.TabIndex = 10;
             this.chkDeclaredOnly.Text = "Declared only";
             this.chkDeclaredOnly.UseVisualStyleBackColor = true;
+            // 
+            // chkFlattenHierarchy
+            // 
+            this.chkFlattenHierarchy.AutoSize = true;
+            this.chkFlattenHierarchy.Location = new System.Drawing.Point(112, 69);
+            this.chkFlattenHierarchy.Name = "chkFlattenHierarchy";
+            this.chkFlattenHierarchy.Size = new System.Drawing.Size(104, 17);
+            this.chkFlattenHierarchy.TabIndex = 11;
+            this.chkFlattenHierarchy.Text = "Flatten hierarchy";
+            this.chkFlattenHierarchy.UseVisualStyleBackColor = true;
+            // 
+            // chkFullyQualifiedTypeNames
+            // 
+            this.chkFullyQualifiedTypeNames.AutoSize = true;
+            this.chkFullyQualifiedTypeNames.Location = new System.Drawing.Point(6, 89);
+            this.chkFullyQualifiedTypeNames.Name = "chkFullyQualifiedTypeNames";
+            this.chkFullyQualifiedTypeNames.Size = new System.Drawing.Size(91, 17);
+            this.chkFullyQualifiedTypeNames.TabIndex = 10;
+            this.chkFullyQualifiedTypeNames.Text = "Full types names";
+            this.chkFullyQualifiedTypeNames.UseVisualStyleBackColor = true;
+            // 
+            // chkKeyworfTypeNames
+            // 
+            this.chkKeyworfTypeNames.AutoSize = true;
+            this.chkKeyworfTypeNames.Location = new System.Drawing.Point(112, 89);
+            this.chkKeyworfTypeNames.Name = "chkKeyworfTypeNames";
+            this.chkKeyworfTypeNames.Size = new System.Drawing.Size(104, 17);
+            this.chkKeyworfTypeNames.TabIndex = 10;
+            this.chkKeyworfTypeNames.Text = "Keyword type names";
+            this.chkKeyworfTypeNames.UseVisualStyleBackColor = true;
+            this.chkKeyworfTypeNames.Checked = true;
             // 
             // comboVisibility
             // 
@@ -384,10 +409,10 @@ namespace NetTypeReflector
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(3, 135);
+            this.tabControl1.Location = new System.Drawing.Point(3, 155);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(289, 399);
+            this.tabControl1.Size = new System.Drawing.Size(289, 379);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -532,6 +557,8 @@ namespace NetTypeReflector
         private System.Windows.Forms.ComboBox comboVisibility;
         private System.Windows.Forms.CheckBox chkDeclaredOnly;
         private System.Windows.Forms.CheckBox chkFlattenHierarchy;
+        private System.Windows.Forms.CheckBox chkFullyQualifiedTypeNames;
+        private System.Windows.Forms.CheckBox chkKeyworfTypeNames;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.TextBox txtFilter;
