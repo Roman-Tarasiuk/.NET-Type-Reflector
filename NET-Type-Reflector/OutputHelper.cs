@@ -64,9 +64,13 @@ namespace NetTypeReflector
 
         private static string FormatGenericType(string typeName)
         {
-            var re = new Regex(@"`.+\[(.+)\]");
+            var re = new Regex(@"`.*?(\[)");
 
-            var result = re.Replace(typeName, "<$1>").ToString();            
+            var result = re.Replace(typeName, "$1").ToString();
+            result = result.Replace("[]", "##");
+            result = result.Replace("[", "<")
+			    .Replace("]", ">")
+                .Replace("##", "[]");
             
             return result;
         }
@@ -107,8 +111,118 @@ namespace NetTypeReflector
                     return "string";
                 case "Void":
                     return "void";
+                //
+                case "Boolean[]":
+                    return "bool[]";
+                case "Byte[]":
+                    return "byte[]";
+                case "SByte[]":
+                    return "sbyte[]";
+                case "Char[]":
+                    return "char[]";
+                case "Decimal[]":
+                    return "decimal[]";
+                case "Double[]":
+                    return "double[]";
+                case "Single[]":
+                    return "float[]";
+                case "Int32[]":
+                    return "int[]";
+                case "UInt32[]":
+                    return "uint[]";
+                case "Int64[]":
+                    return "long[]";
+                case "UInt64[]":
+                    return "ulong[]";
+                case "Object[]":
+                    return "object[]";
+                case "Int16[]":
+                    return "short[]";
+                case "UInt16[]":
+                    return "ushort[]";
+                case "String[]":
+                    return "string[]";
+                case "Void[]":
+                    return "void[]";
+                //
+                case "Boolean*":
+                    return "bool*";
+                case "Byte*":
+                    return "byte*";
+                case "SByte*":
+                    return "sbyte*";
+                case "Char*":
+                    return "char*";
+                case "Decimal*":
+                    return "decimal*";
+                case "Double*":
+                    return "double*";
+                case "Single*":
+                    return "float*";
+                case "Int32*":
+                    return "int*";
+                case "UInt32*":
+                    return "uint*";
+                case "Int64*":
+                    return "long*";
+                case "UInt64*":
+                    return "ulong*";
+                case "Object*":
+                    return "object*";
+                case "Int16*":
+                    return "short*";
+                case "UInt16*":
+                    return "ushort*";
+                case "String*":
+                    return "string*";
+                case "Void*":
+                    return "void*";
                 default:
                     return t.Name;
+            }
+        }
+
+        private static void AddTypeName(RichTextBox box, Type t)
+        {
+            // To do. TODO.
+            // Implement more smart logic.
+
+            bool isKeywordType = false;
+
+            if (KeywordTypeNames)
+            {
+                var keyword = TypeToKeyword(t);
+
+                if (keyword != t.Name)
+                {
+                    AddKeyWord(box, keyword);
+                    isKeywordType = true;
+                }
+            }
+            
+            if (!KeywordTypeNames || !isKeywordType)
+            {
+                if (FullQualifiedTypeNames)
+                {
+                    AddTypeName(box, FormatGenericType(t.ToString()));
+                }
+                else
+                {
+                    var tmp = t.ToString();
+                    var start = -1;
+                    var bracketIndex = tmp.IndexOf("[");
+                    
+                    if (bracketIndex >= 0)
+                    {
+                        start = tmp.LastIndexOf(".", bracketIndex);
+                    }
+                    else
+                    {
+                        start = tmp.LastIndexOf(".");
+                    }
+
+                    AddTypeName(box, FormatGenericType(start >= 0 ? tmp.Substring(start + 1) : tmp));
+                }
             }
         }
 
@@ -125,28 +239,8 @@ namespace NetTypeReflector
                 AddKeyWord(box, parameters[i].IsOut ? "out " : "");
                 AddKeyWord(box, parameters[i].ParameterType.IsByRef && !parameters[i].IsOut ? "ref " : "");
 
-                bool isKeywordType = false;
-
-                if (KeywordTypeNames)
-                {
-                    var keyword = TypeToKeyword(parameters[i].ParameterType);
-
-                    if (keyword != parameters[i].ParameterType.Name)
-                    {
-                        AddKeyWord(box, keyword);
-                        isKeywordType = true;
-                    }
-                }
+                AddTypeName(box, parameters[i].ParameterType);
                 
-                if (!KeywordTypeNames || !isKeywordType)
-                {
-                    AddTypeName(box,
-                        FormatGenericType(FullQualifiedTypeNames ?
-                            parameters[i].ParameterType.FullName :
-                            parameters[i].ParameterType.Name )
-                    );
-                }
-
                 box.AppendText(" ");
                 AddParameterName(box, parameters[i].Name);
                 if (i < parameters.Length - 1)
@@ -250,27 +344,7 @@ namespace NetTypeReflector
 
             box.AppendText(" ");
 
-            bool isKeywordType = false;
-
-            if (KeywordTypeNames)
-            {
-                var keyword = TypeToKeyword(mi.ReturnType);
-
-                if (keyword != mi.ReturnType.Name)
-                {
-                    AddKeyWord(box, keyword);
-                    isKeywordType = true;
-                }
-            }
-            
-            if (!KeywordTypeNames || !isKeywordType)
-            {
-                AddTypeName(box,
-                    FormatGenericType(FullQualifiedTypeNames ?
-                        mi.ReturnType.FullName :
-                        mi.ReturnType.Name )
-                );
-            }
+            AddTypeName(box, mi.ReturnType);
 
             AddMethodName(box, " " + mi.Name);
         }
